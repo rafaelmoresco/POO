@@ -4,8 +4,8 @@ class Settings():
         self.__screenWidth = 960
         self.__screenHeight = 720
         self.__bgColour = (104,104,104)
-        self.__playerSpeed = 1
-        self.__playerSpeed2 = 0.35
+        self.__playerSpeed = 0.8
+        self.__playerSpeed2 = 0.3
         self.__pBulletSpeed = 2
     
     def getWidth(self):
