@@ -9,7 +9,8 @@ class Player():
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.gSettings = gSettings
-        self.fDelay = 50 #Fire Delay
+        self.fDelay = gSettings.getPFireDelay()
+        self.tFDelay = gSettings.getPFireDelay()
         #Speed
         self.speed = self.gSettings.getPSpeed()
         self.speed2 = self.gSettings.getPSpeed2()
@@ -45,7 +46,7 @@ class Player():
         if self.md and self.sm and self.rect.bottom < self.screen_rect.bottom:
             self.centery += self.speed2
         #Verifies if the delay timer is equal to 50, if it is fires one bullet and resets it
-        if self.fDelay >= 50 and self.fi:
+        if self.fDelay >= self.tFDelay and self.fi:
             new_bullet = PBullet(self.gSettings, self.screen, self.centerx, self.rect.top)
             bullets.add(new_bullet)
             self.fDelay = 0
@@ -54,7 +55,7 @@ class Player():
             self.fDelay += 1
         #If the button is released, the counter goes back to 50
         else:
-            self.fDelay = 50
+            self.fDelay = self.tFDelay
 
         #Update Movement
         self.rect.centerx = self.centerx
