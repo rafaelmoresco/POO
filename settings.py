@@ -9,6 +9,7 @@ class Settings():
         self.__pBulletSpeed = 2
         self.__pBulletSpeed_Slow = 4
         self.__pFireDelay = 80
+        self.__enemySpeed = 0.35
 
     def getWidth(self):
         return self.__screenWidth
@@ -26,3 +27,5 @@ class Settings():
         return self.__pBulletSpeed_Slow
     def getPFireDelay(self):
         return self.__pFireDelay
+    def getESpeed(self):
+        return self.__enemySpeed
