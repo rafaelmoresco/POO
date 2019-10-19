@@ -24,5 +24,5 @@ def run_game():
         gf.updateScreen(gSettings, screen, p1, bullets)
         p1.update(bullets)
         bullets.update()
-       
+
 run_game()

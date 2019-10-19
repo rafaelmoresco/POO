@@ -11,6 +11,9 @@ class Player():
         self.gSettings = gSettings
         self.fDelay = gSettings.getPFireDelay()
         self.tFDelay = gSettings.getPFireDelay()
+        #Inicializa hitbox
+        self.hImage = pygame.image.load('images/hitbox.png')
+        self.hRect = self.hImage.get_rect()
         #Speed
         self.speed = self.gSettings.getPSpeed()
         self.speed2 = self.gSettings.getPSpeed2()
@@ -26,6 +29,7 @@ class Player():
         self.rect.centery = self.screen_rect.bottom -80
         self.centerx = float(self.rect.centerx)
         self.centery = float(self.rect.centery)
+
     def update(self, bullets):
         #Normal Speed
         if self.mr and not self.sm and self.rect.right < self.screen_rect.right:
@@ -47,8 +51,16 @@ class Player():
             self.centery += self.speed2
         #Verifies if the delay timer is equal to 50, if it is fires one bullet and resets it
         if self.fDelay >= self.tFDelay and self.fi:
-            new_bullet = PBullet(self.gSettings, self.screen, self.centerx, self.rect.top)
-            bullets.add(new_bullet)
+            if not self.sm:
+                new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+20, self.rect.top+10,False)
+                new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-20, self.rect.top+10,False)
+                bullets.add(new_bullet_right)
+                bullets.add(new_bullet_left)
+            else:
+                new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+5, self.rect.top,True)
+                new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-5, self.rect.top,True)
+                bullets.add(new_bullet_right)
+                bullets.add(new_bullet_left)
             self.fDelay = 0
         #While fire button is presse, it counts
         if self.fi:
@@ -60,5 +72,9 @@ class Player():
         #Update Movement
         self.rect.centerx = self.centerx
         self.rect.centery = self.centery
+        self.hRect.centerx = self.centerx
+        self.hRect.centery = self.centery
     def blitme(self):
         self.screen.blit(self.image, self.rect)
+        if self.sm:
+            self.screen.blit(self.hImage,self.hRect)
