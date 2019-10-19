@@ -33,7 +33,7 @@ def run_game():
         p1.update(bullets)
         bullets.update()
         ebullets.update()
-        enemies.update(ebullets)
+        enemies.update(ebullets, p1)
         m += 1
         if m == 999:
             new_enemy = Enemy( gSettings, screen, 3, 300, p1)

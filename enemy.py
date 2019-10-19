@@ -13,8 +13,8 @@ class Enemy(Sprite):
         self.timer = 0
         self.fired = False
         self.fDelay = gSettings.getEFDelay()
-        self.targetx = p1.rect.x
-        self.targety = p1.rect.y
+        self.targetx = p1.rect.centerx
+        self.targety = p1.rect.centery
         if self.eType == 1:
             self.image = pygame.image.load('images/M1.png')
         elif self.eType == 2:
@@ -24,13 +24,13 @@ class Enemy(Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.gSettings = gSettings
-        self.y = float(self.rect.y)
+        self.y = float(self.rect.centery)
         self.x = x
         self.goingDown = True
         #Speed
         self.speed = gSettings.getESpeed()
 
-    def update(self, ebullets):
+    def update(self, ebullets, p1):
         if self.eType == 1:
             self.y += self.speed
 
@@ -50,13 +50,15 @@ class Enemy(Sprite):
                     self.goingDown = False
             else:
                 if not self.fired:
+                    self.targetx = p1.rect.centerx
+                    self.targety = p1.rect.centery
                     new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.targetx, self.targety)
                     ebullets.add(new_bullet)
                     self.fired = True
                 self.y -= self.speed
                 self.x += self.speed/1.5
-        self.rect.y = self.y
-        self.rect.x = self.x
+        self.rect.centery = self.y
+        self.rect.centerx = self.x
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
