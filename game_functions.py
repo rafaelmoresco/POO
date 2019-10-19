@@ -1,10 +1,10 @@
 import sys
 import pygame
-from bullet import PBullet
+from bullet import *
 from enemy import Enemy
 
 def checkEvents(p1, gSettings, screen, bullets):
-    # Watch for keyboard and mouse events.
+    # Observa o teclado e mouse por eventos
     for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -37,13 +37,15 @@ def checkEvents(p1, gSettings, screen, bullets):
                 elif event.key == pygame.K_z:
                     p1.fi = False
 
-def updateScreen(gSettings, screen, p1, bullets, enemies):
-     # Fill backgrouns with grey
+def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets):
+     # Enche o fundo com cinza
     screen.fill(gSettings.getBgColour())
     p1.blitme()
     for bullet in bullets.sprites():
         bullet.drawBullet()
     for enemy in enemies.sprites():
         enemy.blitme()
-    # Make the most recently drawn screen visible.
+    for ebullet in ebullets.sprites():
+        ebullet.drawEBullet()
+    # Apresenta a ultima tela
     pygame.display.flip()

@@ -3,7 +3,7 @@ from bullet import PBullet
 class Player():
 
     def __init__(self, gSettings, screen):
-        #Basic init
+        #Inicialização basica
         self.screen = screen
         self.image = pygame.image.load('images/Jogador.png')
         self.rect = self.image.get_rect()
@@ -17,14 +17,14 @@ class Player():
         #Speed
         self.speed = self.gSettings.getPSpeed()
         self.speed2 = self.gSettings.getPSpeed2()
-        #Action flags
+        #Flags de ação
         self.mr = False #Move Right
         self.ml = False #Move Left
         self.mu = False #Move Up
         self.md = False #Move Down
         self.sm = False #Slow Mode
         self.fi = False #Firing
-        #Positions
+        #Posições
         self.rect.centerx = self.screen_rect.centerx
         self.rect.centery = self.screen_rect.bottom -80
         self.centerx = float(self.rect.centerx)
@@ -49,7 +49,7 @@ class Player():
             self.centery -= self.speed2
         if self.md and self.sm and self.rect.bottom < self.screen_rect.bottom:
             self.centery += self.speed2
-        #Verifies if the delay timer is equal to 50, if it is fires one bullet and resets it
+        #Verifica se o delay de disparo foi atingido, se for dispara e reseta o contador
         if self.fDelay >= self.tFDelay and self.fi:
             if not self.sm:
                 new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+20, self.rect.top+10,False)
@@ -62,14 +62,14 @@ class Player():
                 bullets.add(new_bullet_right)
                 bullets.add(new_bullet_left)
             self.fDelay = 0
-        #While fire button is presse, it counts
+        #Enquanto Fire estiver ativado, contador conta
         if self.fi:
             self.fDelay += 1
-        #If the button is released, the counter goes back to 50
+        #Se o botão é solto, volta para o valor maximo
         else:
             self.fDelay = self.tFDelay
 
-        #Update Movement
+        #Update Movemento81
         self.rect.centerx = self.centerx
         self.rect.centery = self.centery
         self.hRect.centerx = self.centerx

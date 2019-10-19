@@ -10,42 +10,46 @@ def run_game():
     k = 0
     l = 0
     m = 0
-    # Initialize game and create a screen object.
+    #Inicia o pygame
     pygame.init()
-    #Create settings
+    #Cria settings
     gSettings = Settings()
-    #Create screen
+    #Cria screen
     screen = pygame.display.set_mode((gSettings.getWidth(), gSettings.getHight()))
-    #Set Screen title
+    #Define titulo da janela
     pygame.display.set_caption("Touhou Clone")
-    #Create player
+    #Cria jogador
     p1 = Player(gSettings, screen)
-    #Create bullet group
+    #Cria bullet group
     bullets = Group()
-    #Create enemy group
+    #Cria enemy group
     enemies = Group()
-    # Start the main loop for the game.
+    #Cira enemy bullet group
+    ebullets = Group()
+    #Inicia o loop principal do jogo.
     while True:
         gf.checkEvents(p1, gSettings, screen, bullets)
-        gf.updateScreen(gSettings, screen, p1, bullets, enemies)
+        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets)
         p1.update(bullets)
         bullets.update()
-        enemies.update()
-        k += 1
-        l += 1
+        ebullets.update()
+        enemies.update(ebullets)
         m += 1
-        if k == 200:
-            new_enemy = Enemy(gSettings, screen, 1, gSettings.getWidth()/2)
-            enemies.add(new_enemy)
-            k = 0
-        if l == 1500:
-            new_enemy = Enemy(gSettings, screen, 2, 650)
-            enemies.add(new_enemy)
-            l = 0
         if m == 999:
-            new_enemy = Enemy( gSettings, screen, 3, 300)
+            new_enemy = Enemy( gSettings, screen, 3, 300, p1)
             enemies.add(new_enemy)
             m = 0
+
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
+    for ebullet in ebullets.copy():
+        if ebullet.rect.bottom <= 0 or ebullet.rect.top >= 720 or ebullet.rect.right <= 0 or ebullet.rect.left >= 960:
+            ebullets.remove(ebullet)
+    for enemy in enemies.copy():
+         if enemy.rect.bottom <= 0 or enemy.rect.top >= 720 or enemy.rect.right <= 0 or enemy.rect.left >= 960:
+            enemy.remove(enemies)
+            print(len(enemies))
 
         
 

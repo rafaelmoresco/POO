@@ -1,9 +1,10 @@
 import pygame
+import math
 from pygame.sprite import Sprite
 
 class PBullet(Sprite):
 
-    def __init__(self, gSettings, screen, pCenterx, pTop,isSlow):
+    def __init__(self, gSettings, screen, pCenterx, pTop, isSlow):
         super().__init__()
         #init size
         self.bulletHeight = 15
@@ -29,4 +30,60 @@ class PBullet(Sprite):
         self.rect.y = self.y
 
     def drawBullet(self):
+        pygame.draw.rect(self.screen,self.colour,self.rect)
+
+class EBulletT(Sprite):
+
+    def __init__(self, gSettings, screen, x, y, tx, ty):
+        super().__init__()
+        #init size
+        self.bulletHeight = 6
+        self.bulletWidth = 6
+
+        self.screen = screen
+        self.gSettings = gSettings
+        self.colour = 250,0,30
+        self.rect = pygame.Rect(0,0, self.bulletWidth, self.bulletHeight)
+        
+        self.rect.centerx = x
+        self.rect.centery = y
+
+        self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
+
+        self.xd = abs(x - tx)
+        self.yd = abs(y - ty)
+        self.hipotenusa = math.sqrt(pow(self.xd,2) + pow(self.yd,2))
+        if x < tx:
+            self.leftRight = 1
+        else:
+            self.leftRight = 0
+        if y < ty:
+            self.upDown = 1
+        else:
+            self.upDown = 0
+
+        #speed
+        self.speedx = gSettings.getEBSpeed() * (self.xd/self.hipotenusa)
+        self.speedy = gSettings.getEBSpeed() * (self.yd/self.hipotenusa)
+
+        self.screen = screen
+        self.gSettings = gSettings
+        self.rect = pygame.Rect(0,0, self.bulletWidth, self.bulletHeight)
+
+    def update(self):
+
+        if self.upDown == 1:
+            self.y += self.speedy
+        else:
+            self.y -= self.speedy
+        if self.leftRight == 1:
+            self.x += self.speedx
+        else:
+            self.x -= self.speedx
+
+        self.rect.y = self.y
+        self.rect.x = self.x
+
+    def drawEBullet(self):
         pygame.draw.rect(self.screen,self.colour,self.rect)
