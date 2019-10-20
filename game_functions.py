@@ -49,3 +49,12 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets):
         ebullet.drawEBullet()
     # Apresenta a ultima tela
     pygame.display.flip()
+
+def updateBullets(bullets, enemies):
+    bullets.update()
+
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
+
+    collisions = pygame.sprite.groupcollide(bullets, enemies, True, True)

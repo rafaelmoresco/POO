@@ -31,7 +31,7 @@ def run_game():
         gf.checkEvents(p1, gSettings, screen, bullets)
         gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets)
         p1.update(bullets)
-        bullets.update()
+        gf.updateBullets(bullets, enemies)
         ebullets.update()
         enemies.update(ebullets, p1)
         m += 1
@@ -39,10 +39,7 @@ def run_game():
             new_enemy = Enemy( gSettings, screen, 3, 300, p1)
             enemies.add(new_enemy)
             m = 0
-
-    for bullet in bullets.copy():
-        if bullet.rect.bottom <= 0:
-            bullets.remove(bullet)
+ 
     for ebullet in ebullets.copy():
         if ebullet.rect.bottom <= 0 or ebullet.rect.top >= 720 or ebullet.rect.right <= 0 or ebullet.rect.left >= 960:
             ebullets.remove(ebullet)
