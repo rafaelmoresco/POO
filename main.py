@@ -47,16 +47,14 @@ def run_game():
         gf.checkEvents(p1, gSettings, screen, bullets)
         gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets)
         p1.update(bullets)
-        gf.updateBullets(bullets, enemies)
+        gf.updateBullets(bullets,enemies)
         ebullets.update()
         enemies.update(ebullets, p1)
 
-
- 
-    for ebullet in ebullets.copy():
-        if ebullet.rect.bottom <= 0 or ebullet.rect.top >= 720 or ebullet.rect.right <= 0 or ebullet.rect.left >= 960:
-            ebullets.remove(ebullet)
-    for enemy in enemies.copy():
+        for ebullet in ebullets.copy():
+            if ebullet.rect.bottom <= 0 or ebullet.rect.top >= 720 or ebullet.rect.right <= 0 or ebullet.rect.left >= 960:
+                ebullets.remove(ebullet)
+        for enemy in enemies.copy():
              if enemy.rect.top >= 720:
                 enemies.remove(enemy)
              if enemy.eType != 1 and enemy.eType!=2:
@@ -67,7 +65,7 @@ def run_game():
         if len(enemies) == 0 and cont < len(spawnQueue):
                 level.decodeSpawn(spawnQueue[cont])
                 cont+=1
-        
+
         print(len(enemies))
 
 run_game()
