@@ -5,7 +5,7 @@ from pygame.sprite import Sprite
 
 class Enemy(Sprite):
 
-    def __init__(self, gSettings, screen, eType, x, p1):
+    def __init__(self, gSettings, screen, eType, x, y, p1):
         super().__init__()
         #Inicialização basica
         self.screen = screen
@@ -24,7 +24,7 @@ class Enemy(Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.gSettings = gSettings
-        self.y = float(self.rect.centery)
+        self.y = y
         self.x = x
         self.goingDown = True
         #Speed
