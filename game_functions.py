@@ -60,3 +60,15 @@ def updateBullets(bullets, enemies):
             bullets.remove(bullet)
 
     collisions = pygame.sprite.groupcollide(bullets, enemies, True, True)
+
+def updateEBullets(ebullets, p1):
+    ebullets.update()
+
+    for ebullet in ebullets.copy():
+            if ebullet.rect.bottom <= 0 or ebullet.rect.top >= 720 or ebullet.rect.right <= 0 or ebullet.rect.left >= 960:
+                ebullets.remove(ebullet)
+
+    if pygame.sprite.spritecollideany(p1, ebullets) and (not p1.getHit()):
+        p1.gotHit()
+        bullet = pygame.sprite.spritecollideany(p1, ebullets)
+        bullet.kill()

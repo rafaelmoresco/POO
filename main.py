@@ -54,12 +54,9 @@ def run_game():
         gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets)
         p1.update(bullets)
         gf.updateBullets(bullets,enemies)
-        ebullets.update()
+        gf.updateEBullets(ebullets, p1)
         enemies.update(ebullets, p1)
 
-        for ebullet in ebullets.copy():
-            if ebullet.rect.bottom <= 0 or ebullet.rect.top >= 720 or ebullet.rect.right <= 0 or ebullet.rect.left >= 960:
-                ebullets.remove(ebullet)
         for enemy in enemies.copy():
              if enemy.rect.top >= 720:
                 enemies.remove(enemy)

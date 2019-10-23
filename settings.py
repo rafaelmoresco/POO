@@ -14,6 +14,7 @@ class Settings():
         self.__enemySpeed = 0.35*self.__fpsFactor
         self.__enemyFDelay = 1000/self.__fpsFactor
         self.__enemyBSpeed = 0.55*self.__fpsFactor
+        self.__tInv = 30/self.__fpsFactor
 
     def getWidth(self):
         return self.__screenWidth
@@ -39,3 +40,5 @@ class Settings():
         return self.__enemyBSpeed
     def getFPS(self):
         return self.__fps
+    def getTInv(self):
+        return self.__tInv

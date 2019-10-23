@@ -1,9 +1,11 @@
 import pygame
 from bullet import PBullet
 from enemy import Enemy
-class Player():
+from pygame.sprite import Sprite
+class Player(Sprite):
 
     def __init__(self, gSettings, screen,enemies):
+        super().__init__()
         #Inicialização basica
         self.screen = screen
         self.image = pygame.image.load('images/Jogador.png')
@@ -26,14 +28,26 @@ class Player():
         self.md = False #Move Down
         self.sm = False #Slow Mode
         self.fi = False #Firing
+        self.hit = False #Recentemente atingido
         #Posições
         self.rect.centerx = self.screen_rect.centerx
         self.rect.centery = self.screen_rect.bottom -80
         self.centerx = float(self.rect.centerx)
         self.centery = float(self.rect.centery)
-        #Bomba
+        #Infos
+        self.life = 3
         self.bombs = 3
+        self.score = 0
+        self.tInv = gSettings.getTInv()
+        self.iTimer = 0
+    
+    def gotHit(self):
+        self.life -= 1
+        self.hit = True
+        if self.life <= 0:
+            self.speed = 0
 
+ 
     def update(self, bullets):
         #Normal Speed
         if self.mr and not self.sm and self.rect.right < self.screen_rect.right:
@@ -72,12 +86,20 @@ class Player():
         #Se o botão é solto, volta para o valor maximo
         else:
             self.fDelay = self.tFDelay
-
-        #Update Movemento81
+        #Se atingido recentemente
+        if self.hit:
+            self.iTimer += 1
+            if self.iTimer >= self.tInv:
+                self.hit = False
+                self.iTimer = 0
+        #Update Movemento
         self.rect.centerx = self.centerx
         self.rect.centery = self.centery
         self.hRect.centerx = self.centerx
         self.hRect.centery = self.centery
+
+    def getHit(self):
+        return self.hit
 
     def bomb(self):
         if self.bombs > 0:
