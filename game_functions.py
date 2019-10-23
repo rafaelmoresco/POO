@@ -72,3 +72,19 @@ def updateEBullets(ebullets, p1):
         p1.gotHit()
         bullet = pygame.sprite.spritecollideany(p1, ebullets)
         bullet.kill()
+
+def updateEnemies(enemies, p1, ebullets):
+    enemies.update(ebullets, p1)
+
+    for enemy in enemies.copy():
+             if enemy.rect.top >= 720:
+                enemies.remove(enemy)
+             if enemy.eType != 1 and enemy.eType!=2:
+                if enemy.fired:
+                    if enemy.rect.bottom <= 0:
+                        enemies.remove(enemy)
+    
+    if pygame.sprite.spritecollideany(p1, enemies) and (not p1.getHit()):
+        p1.gotHit()
+        enemy = pygame.sprite.spritecollideany(p1, enemies)
+        enemy.kill()

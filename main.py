@@ -55,15 +55,9 @@ def run_game():
         p1.update(bullets)
         gf.updateBullets(bullets,enemies)
         gf.updateEBullets(ebullets, p1)
-        enemies.update(ebullets, p1)
+        gf.updateEnemies(enemies, p1, ebullets)
 
-        for enemy in enemies.copy():
-             if enemy.rect.top >= 720:
-                enemies.remove(enemy)
-             if enemy.eType != 1 and enemy.eType!=2:
-                if enemy.fired:
-                    if enemy.rect.bottom <= 0:
-                        enemies.remove(enemy)
+        
 
         if len(enemies) == 0 and cont < len(spawnQueue):
                 level.decodeSpawn(spawnQueue[cont])
