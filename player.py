@@ -31,6 +31,8 @@ class Player():
         self.rect.centery = self.screen_rect.bottom -80
         self.centerx = float(self.rect.centerx)
         self.centery = float(self.rect.centery)
+        #Bomba
+        self.bombs = 3
 
     def update(self, bullets):
         #Normal Speed
@@ -78,8 +80,10 @@ class Player():
         self.hRect.centery = self.centery
 
     def bomb(self):
-        self.enemies.empty()
-
+        if self.bombs > 0:
+            self.enemies.empty()
+            self.bombs -= 1
+        
     def blitme(self):
         self.screen.blit(self.image, self.rect)
         if self.sm:
