@@ -13,7 +13,7 @@ class Settings():
         self.__pFireDelay = 80/self.__fpsFactor
         self.__enemySpeed = 0.35*self.__fpsFactor
         self.__enemyFDelay = 1000/self.__fpsFactor
-        self.__enemyBSpeed = 0.55*self.__fpsFactor
+        self.__enemyBSpeed = 0.65*self.__fpsFactor
         self.__tInv = 30/self.__fpsFactor
 
     def getWidth(self):

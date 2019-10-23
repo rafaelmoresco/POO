@@ -57,8 +57,6 @@ def run_game():
         gf.updateEBullets(ebullets, p1)
         gf.updateEnemies(enemies, p1, ebullets)
 
-        
-
         if len(enemies) == 0 and cont < len(spawnQueue):
                 level.decodeSpawn(spawnQueue[cont])
                 cont+=1
