@@ -41,6 +41,44 @@ class Enemy(Sprite):
                 self.timer +=1
                 if self.timer >= self.fDelay:
                     #fire
+
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx, 0)
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx, self.gSettings.getHight())
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, 0, self.rect.centery)
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.gSettings.getWidth(), self.rect.centery)
+                    ebullets.add(new_bullet)
+
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx+200, self.gSettings.getHight())
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx-200, self.gSettings.getHight())
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx+200, 0)
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx-200, 0)
+                    ebullets.add(new_bullet)
+
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx+400, self.gSettings.getHight())
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx-400, self.gSettings.getHight())
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx+400, 0)
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx-400, 0)
+                    ebullets.add(new_bullet)
+
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx+600, self.gSettings.getHight())
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx-600, self.gSettings.getHight())
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx+600, 0)
+                    ebullets.add(new_bullet)
+                    new_bullet = EBulletT(self.gSettings, self.screen, self.rect.x, self.rect.y, self.rect.centerx-600, 0)
+                    ebullets.add(new_bullet)
+
+
                     self.timer = 0
         else:
             if self.goingDown:

@@ -8,9 +8,6 @@ from enemy import Enemy
 from level import Level
 
 def run_game():
-    k = 0
-    l = 0
-    m = 0
     #Inicia o pygame
     pygame.init()
     #Cria settings
@@ -19,14 +16,15 @@ def run_game():
     screen = pygame.display.set_mode((gSettings.getWidth(), gSettings.getHight()))
     #Define titulo da janela
     pygame.display.set_caption("Touhou Clone")
-    #Cria jogador
-    p1 = Player(gSettings, screen)
     #Cria bullet group
     bullets = Group()
     #Cria enemy group
     enemies = Group()
     #Cira enemy bullet group
     ebullets = Group()
+
+    #Cria jogador
+    p1 = Player(gSettings, screen,enemies)
 
     level = Level(screen,gSettings,enemies,p1)
 
@@ -38,12 +36,20 @@ def run_game():
         #Distância vertical entre inimigos/quanto tempo demoram para entrar na tela
     cont = 0
     spawnQueue = []
-    spawnQueue.append([0,1,3,50,500])
-    spawnQueue.append([0,0,3,50,500])
-    spawnQueue.append([1,3,3,50,500])
-    spawnQueue.append([0,3,3,50,500])
+    spawnQueue.append([0,1,2,50,500])
+    spawnQueue.append([0,3,1,100,200])
+    spawnQueue.append([0,4,3,50,100])
+    spawnQueue.append([1,1,2,50,500])
+    spawnQueue.append([1,3,1,50,200])
+    spawnQueue.append([1,4,3,50,100])
+
+    clock = pygame.time.Clock()
+    fps = gSettings.getFPS()
+
     #Inicia o loop principal do jogo.
     while True:
+        clock.tick(fps)
+
         gf.checkEvents(p1, gSettings, screen, bullets)
         gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets)
         p1.update(bullets)
@@ -65,7 +71,5 @@ def run_game():
         if len(enemies) == 0 and cont < len(spawnQueue):
                 level.decodeSpawn(spawnQueue[cont])
                 cont+=1
-
-        print(len(enemies))
 
 run_game()

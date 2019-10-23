@@ -1,8 +1,9 @@
 import pygame
 from bullet import PBullet
+from enemy import Enemy
 class Player():
 
-    def __init__(self, gSettings, screen):
+    def __init__(self, gSettings, screen,enemies):
         #Inicialização basica
         self.screen = screen
         self.image = pygame.image.load('images/Jogador.png')
@@ -11,6 +12,7 @@ class Player():
         self.gSettings = gSettings
         self.fDelay = gSettings.getPFireDelay()
         self.tFDelay = gSettings.getPFireDelay()
+        self.enemies = enemies
         #Inicializa hitbox
         self.hImage = pygame.image.load('images/hitbox.png')
         self.hRect = self.hImage.get_rect()
@@ -74,6 +76,10 @@ class Player():
         self.rect.centery = self.centery
         self.hRect.centerx = self.centerx
         self.hRect.centery = self.centery
+
+    def bomb(self):
+        self.enemies.empty()
+
     def blitme(self):
         self.screen.blit(self.image, self.rect)
         if self.sm:

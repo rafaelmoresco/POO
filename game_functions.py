@@ -22,6 +22,8 @@ def checkEvents(p1, gSettings, screen, bullets):
                     p1.md = True
                 elif event.key == pygame.K_z:
                     p1.fi = True
+                elif event.key == pygame.K_x:
+                    p1.bomb()
             #Key Up events
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LSHIFT:

@@ -1,17 +1,19 @@
 class Settings():
     def __init__(self):
         #Inicia as configurações do jogo
+        self.__fps = 60
+        self.__fpsFactor = 8
         self.__screenWidth = 960
         self.__screenHeight = 720
         self.__bgColour = (104,104,104)
-        self.__playerSpeed = 0.8
-        self.__playerSpeed2 = 0.3
-        self.__pBulletSpeed = 2
-        self.__pBulletSpeed_Slow = 4
-        self.__pFireDelay = 80
-        self.__enemySpeed = 0.35
-        self.__enemyFDelay = 1500
-        self.__enemyBSpeed = 0.5
+        self.__playerSpeed = 0.8*self.__fpsFactor
+        self.__playerSpeed2 = 0.3*self.__fpsFactor
+        self.__pBulletSpeed = 2*self.__fpsFactor
+        self.__pBulletSpeed_Slow = 4*self.__fpsFactor
+        self.__pFireDelay = 80/self.__fpsFactor
+        self.__enemySpeed = 0.35*self.__fpsFactor
+        self.__enemyFDelay = 1000/self.__fpsFactor
+        self.__enemyBSpeed = 0.5*self.__fpsFactor
 
     def getWidth(self):
         return self.__screenWidth
@@ -35,3 +37,5 @@ class Settings():
         return self.__enemyFDelay
     def getEBSpeed(self):
         return self.__enemyBSpeed
+    def getFPS(self):
+        return self.__fps
