@@ -4,10 +4,11 @@ from enemy import Enemy
 from pygame.sprite import Sprite
 class Player(Sprite):
 
-    def __init__(self, gSettings, screen,enemies):
+    def __init__(self, gSettings, screen,enemies,soundController):
         super().__init__()
         #Inicialização basica
         self.screen = screen
+        self.soundController = soundController
         self.image = pygame.image.load('images/Jogador.png')
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
@@ -28,6 +29,8 @@ class Player(Sprite):
         self.md = False #Move Down
         self.sm = False #Slow Mode
         self.fi = False #Firing
+        self.cf = True #Pode atirar
+        self.dead = False #Pode agir
         self.hit = False #Recentemente atingido
         #Posições
         self.rect.centerx = self.screen_rect.centerx
@@ -42,11 +45,17 @@ class Player(Sprite):
         self.iTimer = 0
 
     def gotHit(self):
-        self.life -= 1
-        self.hit = True
-        if self.life <= 0:
-            self.speed = 0
-            self.speed2 = 0
+        if not self.dead:
+            self.life -= 1
+            self.hit = True
+            self.soundController.playSound(4)
+            if self.life <= 0:
+                self.dead = True
+                self.speed = 0
+                self.speed2 = 0
+                self.cf = False
+                self.soundController.stopMusic()
+                self.soundController.playSound(2)
 
     def getLife(self):
         return self.life
@@ -76,17 +85,19 @@ class Player(Sprite):
             self.centery += self.speed2
         #Verifica se o delay de disparo foi atingido, se for dispara e reseta o contador
         if self.fDelay >= self.tFDelay and self.fi:
-            if not self.sm:
-                new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+20, self.rect.top+10,False)
-                new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-20, self.rect.top+10,False)
-                bullets.add(new_bullet_right)
-                bullets.add(new_bullet_left)
-            else:
-                new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+5, self.rect.top,True)
-                new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-5, self.rect.top,True)
-                bullets.add(new_bullet_right)
-                bullets.add(new_bullet_left)
-            self.fDelay = 0
+            if self.cf:
+                if not self.sm:
+                    new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+20, self.rect.top+10,False)
+                    new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-20, self.rect.top+10,False)
+                    bullets.add(new_bullet_right)
+                    bullets.add(new_bullet_left)
+                    self.soundController.playSound(0)
+                else:
+                    new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+5, self.rect.top,True)
+                    new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-5, self.rect.top,True)
+                    bullets.add(new_bullet_right)
+                    bullets.add(new_bullet_left)
+                self.fDelay = 0
         #Enquanto Fire estiver ativado, contador conta
         if self.fi:
             self.fDelay += 1
@@ -109,9 +120,10 @@ class Player(Sprite):
         return self.hit
 
     def bomb(self):
-        if self.bombs > 0:
+        if self.bombs > 0 and not self.dead:
             self.enemies.empty()
             self.bombs -= 1
+            self.soundController.playSound(3)
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)

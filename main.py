@@ -6,13 +6,13 @@ from settings import Settings
 from player import Player
 from enemy import Enemy
 from level import Level
-
-pause = False
+from soundcontroller import Sound
 #0 = Menu, 1 = Jogo, 2 = Pausa
 
 pygame.init()
 pygame.display.set_caption("Touhou Clone")
 gSettings = Settings()
+soundController = Sound()
 screen = pygame.display.set_mode((gSettings.getWidth(), gSettings.getHight()))
 clock = pygame.time.Clock()
 fps = gSettings.getFPS()
@@ -48,7 +48,6 @@ def button(texto,buttonCords,color,colorHover,textColor, action = None):
 
 def game_intro():
     intro = True
-    pause = False
 
     while intro:
         for event in pygame.event.get():
@@ -83,7 +82,7 @@ def run_game():
     ebullets = Group()
 
     #Cria jogador
-    p1 = Player(gSettings, screen,enemies)
+    p1 = Player(gSettings, screen,enemies,soundController)
 
     level = Level(screen,gSettings,enemies,p1)
 
@@ -102,6 +101,8 @@ def run_game():
     spawnQueue.append([1,3,1,50,200])
     spawnQueue.append([1,4,3,50,100])
 
+    soundController.playMusic(0)
+
     #Inicia o loop principal do jogo.
     while True:
 
@@ -110,7 +111,7 @@ def run_game():
         gf.checkEvents(p1, gSettings, screen, bullets)
         gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets)
         p1.update(bullets)
-        gf.updateBullets(bullets,enemies)
+        gf.updateBullets(bullets,enemies,soundController)
         gf.updateEBullets(ebullets, p1)
         gf.updateEnemies(enemies, p1, ebullets)
 

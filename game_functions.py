@@ -77,7 +77,7 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets):
     # Apresenta a ultima tela
     pygame.display.flip()
 
-def updateBullets(bullets, enemies):
+def updateBullets(bullets, enemies,soundController):
     bullets.update()
 
     for bullet in bullets.copy():
@@ -88,6 +88,7 @@ def updateBullets(bullets, enemies):
     if collisions:
         global score
         score+=100
+        soundController.playSound(1)
 
 def updateEBullets(ebullets, p1):
     ebullets.update()
