@@ -1,7 +1,8 @@
 import sys
 import pygame
 from bullet import *
-from enemy import Enemy
+
+score = 0
 
 def checkEvents(p1, gSettings, screen, bullets):
     # Observa o teclado e mouse por eventos
@@ -24,6 +25,7 @@ def checkEvents(p1, gSettings, screen, bullets):
                     p1.fi = True
                 elif event.key == pygame.K_x:
                     p1.bomb()
+
             #Key Up events
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LSHIFT:
@@ -39,6 +41,28 @@ def checkEvents(p1, gSettings, screen, bullets):
                 elif event.key == pygame.K_z:
                     p1.fi = False
 
+def drawGUI(screen,gSettings,p1):
+    barCoords = (0,gSettings.getHight()-100,gSettings.getWidth(),100)
+    pygame.draw.rect(screen,(0,0,0),barCoords)
+
+    if p1.getLife()>0:
+        heart = pygame.image.load('images/vida.png')
+
+        for i in range(p1.getLife()):
+            screen.blit(heart,(64+(64*i)+(20*(i+1)),gSettings.getHight()-80,gSettings.getWidth(),100))
+
+    if p1.getBombs() > 0:
+        bomb = pygame.image.load('images/bomb.png')
+        bombCoords = (392,gSettings.getHight()-70,gSettings.getWidth(),100)
+        for i in range(p1.getBombs()):
+            screen.blit(bomb,(392+(64*i)+(20*(i+1)),gSettings.getHight()-80,gSettings.getWidth(),100))
+
+    font = gSettings.getGUIFont()
+    text_surface = font.render("Score: %d" % (score),False,(255,255,255))
+    text_rect = text_surface.get_rect()
+    text_rect.center = (gSettings.getWidth()-200,gSettings.getHight()-50)
+    screen.blit(text_surface,text_rect)
+
 def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets):
      # Enche o fundo com cinza
     screen.fill(gSettings.getBgColour())
@@ -49,6 +73,7 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets):
         enemy.blitme()
     for ebullet in ebullets.sprites():
         ebullet.drawEBullet()
+    drawGUI(screen,gSettings,p1)
     # Apresenta a ultima tela
     pygame.display.flip()
 
@@ -60,6 +85,9 @@ def updateBullets(bullets, enemies):
             bullets.remove(bullet)
 
     collisions = pygame.sprite.groupcollide(bullets, enemies, True, True)
+    if collisions:
+        global score
+        score+=100
 
 def updateEBullets(ebullets, p1):
     ebullets.update()
@@ -83,8 +111,11 @@ def updateEnemies(enemies, p1, ebullets):
                 if enemy.fired:
                     if enemy.rect.bottom <= 0:
                         enemies.remove(enemy)
-    
+
     if pygame.sprite.spritecollideany(p1, enemies) and (not p1.getHit()):
         p1.gotHit()
         enemy = pygame.sprite.spritecollideany(p1, enemies)
         enemy.kill()
+
+def getPause():
+    return pause

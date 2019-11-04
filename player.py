@@ -31,7 +31,7 @@ class Player(Sprite):
         self.hit = False #Recentemente atingido
         #Posições
         self.rect.centerx = self.screen_rect.centerx
-        self.rect.centery = self.screen_rect.bottom -80
+        self.rect.centery = self.screen_rect.bottom -150
         self.centerx = float(self.rect.centerx)
         self.centery = float(self.rect.centery)
         #Infos
@@ -40,14 +40,21 @@ class Player(Sprite):
         self.score = 0
         self.tInv = gSettings.getTInv()
         self.iTimer = 0
-    
+
     def gotHit(self):
         self.life -= 1
         self.hit = True
         if self.life <= 0:
             self.speed = 0
+            self.speed2 = 0
 
- 
+    def getLife(self):
+        return self.life
+
+    def getBombs(self):
+        return self.bombs
+
+
     def update(self, bullets):
         #Normal Speed
         if self.mr and not self.sm and self.rect.right < self.screen_rect.right:
@@ -56,7 +63,7 @@ class Player(Sprite):
             self.centerx -= self.speed
         if self.mu and not self.sm and self.rect.top > 0:
             self.centery -= self.speed
-        if self.md and not self.sm and self.rect.bottom < self.screen_rect.bottom:
+        if self.md and not self.sm and self.rect.bottom < self.screen_rect.bottom-100:
             self.centery += self.speed
         #Slow Speed
         if self.mr and self.sm and self.rect.right < self.screen_rect.right:
@@ -105,7 +112,7 @@ class Player(Sprite):
         if self.bombs > 0:
             self.enemies.empty()
             self.bombs -= 1
-        
+
     def blitme(self):
         self.screen.blit(self.image, self.rect)
         if self.sm:

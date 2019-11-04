@@ -1,3 +1,5 @@
+import pygame
+
 class Settings():
     def __init__(self):
         #Inicia as configurações do jogo
@@ -15,6 +17,17 @@ class Settings():
         self.__enemyFDelay = 1000/self.__fpsFactor
         self.__enemyBSpeed = 0.65*self.__fpsFactor
         self.__tInv = 30/self.__fpsFactor
+
+        self.__titleFont = pygame.font.Font('fonts/CENTAUR.ttf',150)
+        self.__buttonFont = pygame.font.Font('fonts/FELIXTI.ttf',30)
+        self.__GUIFont = pygame.font.Font('fonts/coders_crux.ttf',50)
+
+        self.__introBgColor = (0,0,0)
+        self.__introTitleColor = (250,10,10)
+        self.__buttonColor = (220,20,60)
+        self.__buttonHoverColor = (250,50,90)
+        self.__buttonTextColor = (10,10,10)
+        self.__titleText = "Touhou Clone"
 
     def getWidth(self):
         return self.__screenWidth
@@ -42,3 +55,22 @@ class Settings():
         return self.__fps
     def getTInv(self):
         return self.__tInv
+
+    def getIntroBgColor(self):
+        return self.__introBgColor
+    def getTitleFont(self):
+        return self.__titleFont
+    def getButtonFont(self):
+        return self.__buttonFont
+    def getIntroTitleColor(self):
+        return self.__introTitleColor
+    def getGUIFont(self):
+        return self.__GUIFont
+    def getTitleText(self):
+        return self.__titleText
+    def getButtonColor(self):
+        return self.__buttonColor
+    def getButtonHoverColor(self):
+        return self.__buttonHoverColor
+    def getButtonTextColor(self):
+        return self.__buttonTextColor
