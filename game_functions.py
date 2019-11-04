@@ -118,5 +118,3 @@ def updateEnemies(enemies, p1, ebullets):
         enemy = pygame.sprite.spritecollideany(p1, enemies)
         enemy.kill()
 
-def getPause():
-    return pause

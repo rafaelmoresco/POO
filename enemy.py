@@ -26,7 +26,11 @@ class Enemy(Sprite):
         self.gSettings = gSettings
         self.y = y
         self.x = x
+        #controle movimento parabólico inimigo 3
         self.goingDown = True
+        self.pxi = x
+        self.px = -30
+        self.py = 0
         #Speed
         self.speed = gSettings.getESpeed()
 
@@ -82,9 +86,11 @@ class Enemy(Sprite):
                     self.timer = 0
         else:
             if self.goingDown:
-                self.y += self.speed
-                self.x += self.speed/2
-                if self.rect.y >= 200:
+                self.x = self.pxi + (30 + self.px)
+                self.py = 0.2*self.px**2
+                self.y = 180 - abs(self.py)
+                self.px += 0.25
+                if self.py == 0 or self.px >= 0:
                     self.goingDown = False
             else:
                 if not self.fired:
@@ -93,8 +99,10 @@ class Enemy(Sprite):
                     new_bullet = EBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, self.targetx, self.targety)
                     ebullets.add(new_bullet)
                     self.fired = True
-                self.y -= self.speed
-                self.x += self.speed/1.5
+                self.x = self.pxi + 30 + self.px
+                self.py = 0.2*self.px**2
+                self.y = 180 - self.py
+                self.px +=0.25
         self.rect.centery = self.y
         self.rect.centerx = self.x
 
