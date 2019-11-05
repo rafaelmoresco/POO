@@ -1,5 +1,6 @@
 import sys
 import pygame
+import math
 from bullet import *
 from pygame.sprite import Sprite
 
@@ -29,7 +30,7 @@ class Enemy(Sprite):
         #controle movimento parabólico inimigo 3
         self.goingDown = True
         self.pxi = x
-        self.px = -30
+        self.px = -300
         self.py = 0
         #Speed
         self.speed = gSettings.getESpeed()
@@ -86,12 +87,17 @@ class Enemy(Sprite):
                     self.timer = 0
         else:
             if self.goingDown:
-                self.x = self.pxi + (30 + self.px)
-                self.py = 0.2*self.px**2
-                self.y = 180 - abs(self.py)
-                self.px += 0.25
-                if self.py == 0 or self.px >= 0:
+                self.x = self.pxi + (300 + self.px)
+                self.py = math.sqrt(90000 - (self.px**2))
+                self.y = self.py
+                if self.px >= 0:
                     self.goingDown = False
+                
+                if self.px > -250:
+                    self.px += 2
+                else:
+                    self.px += 1
+
             else:
                 if not self.fired:
                     self.targetx = p1.rect.centerx
@@ -99,10 +105,17 @@ class Enemy(Sprite):
                     new_bullet = EBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, self.targetx, self.targety)
                     ebullets.add(new_bullet)
                     self.fired = True
-                self.x = self.pxi + 30 + self.px
-                self.py = 0.2*self.px**2
-                self.y = 180 - self.py
-                self.px +=0.25
+                if not(self.px >= 300):
+                    self.x = self.pxi + 300 + self.px
+                    self.py = math.sqrt(90000 - (self.px**2))
+                    self.y = self.py
+                    if self.px < 250:
+                        self.px += 2
+                    else:
+                        self.px += 1
+                else:
+                    self.y -= self.speed
+                
         self.rect.centery = self.y
         self.rect.centerx = self.x
 
