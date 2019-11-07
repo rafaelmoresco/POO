@@ -17,11 +17,11 @@ class Enemy(Sprite):
         self.targetx = p1.rect.centerx
         self.targety = p1.rect.centery
         if self.eType == 1:
-            self.image = pygame.image.load('images/M1.png')
+            self.image = pygame.image.load('images/M1.png').convert_alpha()
         elif self.eType == 2:
-            self.image = pygame.image.load('images/M2.png')
+            self.image = pygame.image.load('images/M2.png').convert_alpha()
         else:
-            self.image = pygame.image.load('images/M3.png')
+            self.image = pygame.image.load('images/M3.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.gSettings = gSettings
@@ -92,7 +92,7 @@ class Enemy(Sprite):
                 self.y = self.py
                 if self.px >= 0:
                     self.goingDown = False
-                
+
                 if self.px > -250:
                     self.px += 2
                 else:
@@ -115,7 +115,7 @@ class Enemy(Sprite):
                         self.px += 1
                 else:
                     self.y -= self.speed
-                
+
         self.rect.centery = self.y
         self.rect.centerx = self.x
 

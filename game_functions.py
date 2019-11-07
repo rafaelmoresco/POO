@@ -3,6 +3,21 @@ import pygame
 from bullet import *
 
 score = 0
+overlay = pygame.image.load('images/overlay.png')
+heart = pygame.image.load('images/vida.png')
+bomb = pygame.image.load('images/bomb.png')
+font = None
+
+def convertImages():
+    overlay = pygame.image.load('images/overlay.png').convert_alpha()
+    heart = pygame.image.load('images/vida.png').convert_alpha()
+    bomb = pygame.image.load('images/bomb.png').convert_alpha()
+
+def importFont(gSettings):
+    global font
+    font = gSettings.getGUIFont()
+    screen_width = gSettings.getWidth()
+    screen_Height = gSettings.getHight()
 
 def checkEvents(p1, gSettings, screen, bullets):
     # Observa o teclado e mouse por eventos
@@ -42,30 +57,33 @@ def checkEvents(p1, gSettings, screen, bullets):
                     p1.fi = False
 
 def drawGUI(screen,gSettings,p1):
-    barCoords = (0,gSettings.getHight()-100,gSettings.getWidth(),100)
-    pygame.draw.rect(screen,(0,0,0),barCoords)
+    screen.blit(overlay,(0,0))
 
     if p1.getLife()>0:
-        heart = pygame.image.load('images/vida.png')
-
         for i in range(p1.getLife()):
-            screen.blit(heart,(64+(64*i)+(20*(i+1)),gSettings.getHight()-80,gSettings.getWidth(),100))
+            screen.blit(heart,(700+(64*i)+(5*(i+1)),100,gSettings.getWidth(),100))
 
     if p1.getBombs() > 0:
-        bomb = pygame.image.load('images/bomb.png')
-        bombCoords = (392,gSettings.getHight()-70,gSettings.getWidth(),100)
         for i in range(p1.getBombs()):
-            screen.blit(bomb,(392+(64*i)+(20*(i+1)),gSettings.getHight()-80,gSettings.getWidth(),100))
+            screen.blit(bomb,(700+(64*i)+(5*(i+1)),270,gSettings.getWidth(),100))
 
-    font = gSettings.getGUIFont()
-    text_surface = font.render("Score: %d" % (score),False,(255,255,255))
+    scoreText = ("Pontos %d" % (score))
+    drawText(scoreText,gSettings,screen,810,400)
+    drawText("Vida:",gSettings,screen,810,70)
+    drawText("Bombas:",gSettings,screen,810,240)
+
+def drawText(texto,gSettings,screen,x,y):
+    text_surface = font.render(texto,False,(255,255,255))
     text_rect = text_surface.get_rect()
-    text_rect.center = (gSettings.getWidth()-200,gSettings.getHight()-50)
+    text_rect.center = (x,y)
     screen.blit(text_surface,text_rect)
 
-def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets):
-     # Enche o fundo com cinza
-    screen.fill(gSettings.getBgColour())
+def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds):
+    bg.blitme()
+
+    for cloud in clouds:
+        cloud.blitme()
+
     p1.blitme()
     for bullet in bullets.sprites():
         bullet.drawBullet()
@@ -77,11 +95,15 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets):
     # Apresenta a ultima tela
     pygame.display.flip()
 
+def updateBg(bg,clouds):
+    for cloud in clouds.sprites():
+        cloud.update()
+
 def updateBullets(bullets, enemies,soundController):
     bullets.update()
 
     for bullet in bullets.copy():
-        if bullet.rect.bottom <= 0:
+        if bullet.rect.bottom <= 23 or bullet.rect.top >= 675 or bullet.rect.right <= 46 or bullet.rect.left >= 599:
             bullets.remove(bullet)
 
     collisions = pygame.sprite.groupcollide(bullets, enemies, True, True)
@@ -94,7 +116,7 @@ def updateEBullets(ebullets, p1):
     ebullets.update()
 
     for ebullet in ebullets.copy():
-            if ebullet.rect.bottom <= 0 or ebullet.rect.top >= 720 or ebullet.rect.right <= 0 or ebullet.rect.left >= 960:
+            if ebullet.rect.bottom <= 23 or ebullet.rect.top >= 675 or ebullet.rect.right <= 46 or ebullet.rect.left >= 599:
                 ebullets.remove(ebullet)
 
     if pygame.sprite.spritecollideany(p1, ebullets) and (not p1.getHit()):
@@ -106,15 +128,14 @@ def updateEnemies(enemies, p1, ebullets):
     enemies.update(ebullets, p1)
 
     for enemy in enemies.copy():
-             if enemy.rect.top >= 720:
+             if enemy.rect.top >= 675:
                 enemies.remove(enemy)
              if enemy.eType != 1 and enemy.eType!=2:
                 if enemy.fired:
-                    if enemy.rect.bottom <= 0:
+                    if enemy.rect.bottom <= 23:
                         enemies.remove(enemy)
 
     if pygame.sprite.spritecollideany(p1, enemies) and (not p1.getHit()):
         p1.gotHit()
         enemy = pygame.sprite.spritecollideany(p1, enemies)
         enemy.kill()
-

@@ -4,12 +4,13 @@ from enemy import Enemy
 from pygame.sprite import Sprite
 class Player(Sprite):
 
-    def __init__(self, gSettings, screen,enemies,soundController):
+    def __init__(self, gSettings, screen,enemies,soundController,trueScreen):
         super().__init__()
         #Inicialização basica
         self.screen = screen
+        self.trueScreen = trueScreen
         self.soundController = soundController
-        self.image = pygame.image.load('images/Jogador.png')
+        self.image = pygame.image.load('images/Jogador.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.gSettings = gSettings
@@ -17,7 +18,7 @@ class Player(Sprite):
         self.tFDelay = gSettings.getPFireDelay()
         self.enemies = enemies
         #Inicializa hitbox
-        self.hImage = pygame.image.load('images/hitbox.png')
+        self.hImage = pygame.image.load('images/hitbox.png').convert_alpha()
         self.hRect = self.hImage.get_rect()
         #Speed
         self.speed = self.gSettings.getPSpeed()
@@ -66,22 +67,22 @@ class Player(Sprite):
 
     def update(self, bullets):
         #Normal Speed
-        if self.mr and not self.sm and self.rect.right < self.screen_rect.right:
+        if self.mr and not self.sm and self.rect.right < self.trueScreen.right:
             self.centerx += self.speed
-        if self.ml and not self.sm and self.rect.left > 0:
+        if self.ml and not self.sm and self.rect.left > self.trueScreen.left:
             self.centerx -= self.speed
-        if self.mu and not self.sm and self.rect.top > 0:
+        if self.mu and not self.sm and self.rect.top > self.trueScreen.top:
             self.centery -= self.speed
-        if self.md and not self.sm and self.rect.bottom < self.screen_rect.bottom-100:
+        if self.md and not self.sm and self.rect.bottom < self.trueScreen.bottom:
             self.centery += self.speed
         #Slow Speed
-        if self.mr and self.sm and self.rect.right < self.screen_rect.right:
+        if self.mr and self.sm and self.rect.right < self.trueScreen.right:
             self.centerx += self.speed2
-        if self.ml and self.sm and self.rect.left > 0:
+        if self.ml and self.sm and self.rect.left > self.trueScreen.left:
             self.centerx -= self.speed2
-        if self.mu and self.sm and self.rect.top > 0:
+        if self.mu and self.sm and self.rect.top > self.trueScreen.top:
             self.centery -= self.speed2
-        if self.md and self.sm and self.rect.bottom < self.screen_rect.bottom:
+        if self.md and self.sm and self.rect.bottom < self.trueScreen.bottom:
             self.centery += self.speed2
         #Verifica se o delay de disparo foi atingido, se for dispara e reseta o contador
         if self.fDelay >= self.tFDelay and self.fi:

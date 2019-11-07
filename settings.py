@@ -5,9 +5,15 @@ class Settings():
         #Inicia as configurações do jogo
         self.__fps = 60
         self.__fpsFactor = 8
+
         self.__screenWidth = 960
         self.__screenHeight = 720
+        self.__trueWidth = 599
+        self.__trueHeight = 675
+
         self.__bgColour = (104,104,104)
+        self.__bgSpeed = 2
+
         self.__playerSpeed = 0.8*self.__fpsFactor
         self.__playerSpeed2 = 0.3*self.__fpsFactor
         self.__pBulletSpeed = 2*self.__fpsFactor
@@ -33,8 +39,16 @@ class Settings():
         return self.__screenWidth
     def getHight(self):
         return self.__screenHeight
+    def getTrueWidth(self):
+        return self.__trueWidth
+    def getTrueHight(self):
+        return self.__trueHeight
+
     def getBgColour(self):
         return self.__bgColour
+    def getBgSpeed(self):
+        return self.__bgSpeed
+
     def getPSpeed(self):
         return self.__playerSpeed
     def getPSpeed2(self):
