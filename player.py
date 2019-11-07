@@ -1,7 +1,9 @@
 import pygame
+import game_functions as gf
 from bullet import PBullet
 from enemy import Enemy
 from pygame.sprite import Sprite
+
 class Player(Sprite):
 
     def __init__(self, gSettings, screen,enemies,soundController,trueScreen):
@@ -57,6 +59,7 @@ class Player(Sprite):
                 self.cf = False
                 self.soundController.stopMusic()
                 self.soundController.playSound(2)
+                gf.writeHighScore()
 
     def getLife(self):
         return self.life

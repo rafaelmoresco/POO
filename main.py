@@ -27,6 +27,8 @@ buttonColor = gSettings.getButtonColor()
 buttonHover = gSettings.getButtonHoverColor()
 buttonTextColor = gSettings.getButtonTextColor()
 
+gf.getHighScore()
+
 def quit_game():
     pygame.quit()
     quit()
@@ -124,6 +126,8 @@ def run_game():
         gf.updateBullets(bullets,enemies,soundController)
         gf.updateEBullets(ebullets, p1)
         gf.updateEnemies(enemies, p1, ebullets)
+        gf.updateScore()
+        
 
         if len(enemies) == 0 and cont < len(spawnQueue):
                 level.decodeSpawn(spawnQueue[cont])

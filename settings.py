@@ -35,6 +35,7 @@ class Settings():
         self.__buttonTextColor = (10,10,10)
         self.__titleText = "Touhou Clone"
 
+
     def getWidth(self):
         return self.__screenWidth
     def getHight(self):
@@ -88,3 +89,5 @@ class Settings():
         return self.__buttonHoverColor
     def getButtonTextColor(self):
         return self.__buttonTextColor
+
+

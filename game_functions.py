@@ -3,6 +3,7 @@ import pygame
 from bullet import *
 
 score = 0
+highScore = 0
 overlay = pygame.image.load('images/overlay.png')
 heart = pygame.image.load('images/vida.png')
 bomb = pygame.image.load('images/bomb.png')
@@ -67,7 +68,9 @@ def drawGUI(screen,gSettings,p1):
         for i in range(p1.getBombs()):
             screen.blit(bomb,(700+(64*i)+(5*(i+1)),270,gSettings.getWidth(),100))
 
-    scoreText = ("Pontos %d" % (score))
+    scoreText = ("%010d" % (score))
+    highScoreText = ("%010d" % (highScore))
+    drawText(highScoreText,gSettings,screen,810,500)
     drawText(scoreText,gSettings,screen,810,400)
     drawText("Vida:",gSettings,screen,810,70)
     drawText("Bombas:",gSettings,screen,810,240)
@@ -139,3 +142,26 @@ def updateEnemies(enemies, p1, ebullets):
         p1.gotHit()
         enemy = pygame.sprite.spritecollideany(p1, enemies)
         enemy.kill()
+
+def getHighScore():
+
+    f = open("score.txt", "r")
+    temp = f.read()
+    f.close()
+    '''temp = list(temp)
+    temp.pop()
+    temp = "".join(temp)
+    '''
+    global highScore
+    highScore = int(temp)
+
+def updateScore():
+    global highScore
+    global score
+    if score > highScore:
+        highScore = score
+
+def writeHighScore():
+
+    f = open("score.txt", "w")
+    f.write(str(highScore))
