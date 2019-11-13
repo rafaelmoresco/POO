@@ -37,13 +37,11 @@ class EBulletT(Sprite):
     def __init__(self, gSettings, screen, x, y, tx, ty):
         super().__init__()
         #init size
-        self.bulletHeight = 6
-        self.bulletWidth = 6
+        self.image = pygame.image.load('images/MonsterTiro.png')
+        self.rect = self.image.get_rect()
 
         self.screen = screen
         self.gSettings = gSettings
-        self.colour = 250,0,30
-        self.rect = pygame.Rect(0,0, self.bulletWidth, self.bulletHeight)
         
         self.rect.centerx = x
         self.rect.centery = y
@@ -69,7 +67,6 @@ class EBulletT(Sprite):
 
         self.screen = screen
         self.gSettings = gSettings
-        self.rect = pygame.Rect(0,0, self.bulletWidth, self.bulletHeight)
 
     def update(self):
 
@@ -86,4 +83,4 @@ class EBulletT(Sprite):
         self.rect.x = self.x
 
     def drawEBullet(self):
-        pygame.draw.rect(self.screen,self.colour,self.rect)
+        self.screen.blit(self.image, self.rect)
