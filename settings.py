@@ -33,8 +33,7 @@ class Settings():
         self.__buttonColor = (220,20,60)
         self.__buttonHoverColor = (250,50,90)
         self.__buttonTextColor = (10,10,10)
-        self.__titleText = "Touhou Clone"
-
+        self.__titleText = "Touhou C"
 
     def getWidth(self):
         return self.__screenWidth
@@ -90,4 +89,6 @@ class Settings():
     def getButtonTextColor(self):
         return self.__buttonTextColor
 
-
+    def difficultyIncrease(self):
+        self.__enemySpeed += 0.05
+        self.__enemyFDelay -= 0.05

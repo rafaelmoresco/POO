@@ -10,8 +10,10 @@ class Sound:
         damage = pygame.mixer.Sound('sounds/damage.wav')
 
         self.sounds = [shot,death_e,death_p,bomb,damage]
+        for sound in self.sounds:
+            sound.set_volume(0.25)
 
-        stage1 = pygame.mixer.music.load('music/stage1.ogg')
+        stage1 = 'music/stage1.ogg'
         self.musics = [stage1]
 
     def playSound(self,index):
@@ -19,7 +21,8 @@ class Sound:
 
     def playMusic(self,index):
         pygame.mixer.music.stop()
-        pygame.mixer.music.play(index)
+        pygame.mixer.music.load(self.musics[index])
+        pygame.mixer.music.play(-1)
 
     def stopMusic(self):
         pygame.mixer.music.stop()

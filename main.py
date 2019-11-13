@@ -10,8 +10,10 @@ from level import Level
 from soundcontroller import Sound
 from background import Background
 
+pygame.mixer.pre_init(44100, -16, 2, 2048)
+pygame.mixer.init()
 pygame.init()
-pygame.display.set_caption("Touhou Clone")
+pygame.display.set_caption("Touhou C")
 gSettings = Settings()
 soundController = Sound()
 screen = pygame.display.set_mode((gSettings.getWidth(), gSettings.getHight()))
@@ -26,8 +28,6 @@ titleColor = gSettings.getIntroTitleColor()
 buttonColor = gSettings.getButtonColor()
 buttonHover = gSettings.getButtonHoverColor()
 buttonTextColor = gSettings.getButtonTextColor()
-
-gf.getHighScore()
 
 def quit_game():
     pygame.quit()
@@ -61,15 +61,43 @@ def telaBotoes(texto,textoBotao1,textoBotao2):
         TextRect.center = (int(gSettings.getWidth()/2),int(gSettings.getHight()/6))
         screen.blit(TextSurf, TextRect)
 
-        button1Cords = (int(gSettings.getWidth()/2-100),350,200,75)
-        button2Cords = (int(gSettings.getWidth()/2-100),500,200,75)
+        button1Cords = (int(gSettings.getWidth()/2-100),300,200,75)
+        button2Cords = (int(gSettings.getWidth()/2-100),450,200,75)
+        button3Cords = (int(gSettings.getWidth()/2-100),600,200,75)
 
-        button(textoBotao1, button1Cords, buttonColor,buttonHover,buttonTextColor,run_game)
+        button(textoBotao1, button1Cords, buttonColor,buttonHover,buttonTextColor,telaInstruc)
         button(textoBotao2, button2Cords, buttonColor,buttonHover,buttonTextColor,quit_game)
-
 
         pygame.display.flip()
         clock.tick(fps)
+
+def telaInstruc():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+    screen.fill(gSettings.getIntroBgColor())
+
+    def drawText(texto,font,gSettings,screen,x,y,cor):
+        text_surface = font.render(texto,False,cor)
+        text_rect = text_surface.get_rect()
+        text_rect.center = (x,y)
+        screen.blit(text_surface,text_rect)
+
+    font1 = gSettings.getButtonFont()
+    font2 = gSettings.getTitleFont()
+    branco = (255,255,255)
+    vermelho = gSettings.getIntroTitleColor()
+
+    drawText("SETAS = Mover",font1,gSettings,screen,gSettings.getWidth()/2,100,branco)
+    drawText("Z = Atirar",font1,gSettings,screen,gSettings.getWidth()/2,150,branco)
+    drawText("X = Bomba",font1,gSettings,screen,gSettings.getWidth()/2,200,branco)
+    drawText("SHIFT = Modo precisão",font1,gSettings,screen,gSettings.getWidth()/2,250,branco)
+    drawText("Prepare se...",font2,gSettings,screen,gSettings.getWidth()/2,600,vermelho)
+
+    pygame.display.flip()
+    pygame.time.wait(5000)
+    run_game()
+
 
 
 def text_objects(texto,fonte,cor):
@@ -84,56 +112,49 @@ def run_game():
     #Cira enemy bullet group
     ebullets = Group()
 
+    explosions = Group()
+
     bg = Background(gSettings,screen,trueScreen,0)
     clouds = Group()
-    for i in range(5):
-        new_cloud = Background(gSettings,screen,trueScreen,random.randrange(1,2))
+    for i in range(3):
+        new_cloud = Background(gSettings,screen,trueScreen,1)
+        clouds.add(new_cloud)
+        new_cloud = Background(gSettings,screen,trueScreen,2)
         clouds.add(new_cloud)
 
+
     #Cria jogador
-    p1 = Player(gSettings, screen,enemies,soundController,trueScreen)
+    p1 = Player(gSettings, screen,enemies,soundController,trueScreen,explosions,ebullets)
 
     level = Level(screen,gSettings,enemies,p1,trueScreen)
 
-    #Inicializa a sequência de spawn
-    #Parametros (em ordem):
-        #Formação (0 = spawnLados, 1 = spawnMeioS)
-        #Quantas linhas de inimigos
-        #Distancia horizontal entre inimigos, se estiverem na formação spawnLados
-        #Distância vertical entre inimigos/quanto tempo demoram para entrar na tela
-    cont = 0
-    spawnQueue = []
-    spawnQueue.append([0,1,2,50,500])
-    spawnQueue.append([0,3,1,100,200])
-    spawnQueue.append([0,4,3,50,100])
-    spawnQueue.append([1,1,2,50,500])
-    spawnQueue.append([1,3,1,50,200])
-    spawnQueue.append([1,4,3,50,100])
-
-    gf.importFont(gSettings)
-    gf.convertImages()
+    gf.initGUI(gSettings,screen)
+    gf.getHighScore()
     soundController.playMusic(0)
 
     #Inicia o loop principal do jogo.
+    level.generateSpawn()
+
     while True:
 
         clock.tick(fps)
 
         gf.checkEvents(p1, gSettings, screen, bullets)
-        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds)
+        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions)
         gf.updateBg(bg,clouds)
         p1.update(bullets)
-        gf.updateBullets(bullets,enemies,soundController)
+        gf.updateBullets(bullets,enemies,soundController,screen, explosions)
+        gf.updateExplosions(explosions)
         gf.updateEBullets(ebullets, p1)
         gf.updateEnemies(enemies, p1, ebullets)
         gf.updateScore()
-        
 
-        if len(enemies) == 0 and cont < len(spawnQueue):
-                level.decodeSpawn(spawnQueue[cont])
-                cont+=1
+        if len(enemies) == 0:
+            gSettings.difficultyIncrease()
+            level.generateSpawn()
+
 
         if p1.dead and not pygame.mixer.get_busy():
             telaBotoes("Game Over", "Novamente", "Sair")
 
-telaBotoes("Touhou Clone", "Iniciar", "Sair")
+telaBotoes("Touhou C", "Iniciar", "Sair")

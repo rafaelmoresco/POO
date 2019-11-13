@@ -2,25 +2,27 @@ import pygame
 import game_functions as gf
 from bullet import PBullet
 from enemy import Enemy
+from explosion import Explosion
 from pygame.sprite import Sprite
-
 class Player(Sprite):
 
-    def __init__(self, gSettings, screen,enemies,soundController,trueScreen):
+    def __init__(self, gSettings, screen,enemies,soundController,trueScreen,explosions,ebullets):
         super().__init__()
         #Inicialização basica
         self.screen = screen
         self.trueScreen = trueScreen
         self.soundController = soundController
-        self.image = pygame.image.load('images/Jogador.png').convert_alpha()
+        self.image = pygame.image.load('images/Jogador.png').convert_alpha(screen)
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.gSettings = gSettings
         self.fDelay = gSettings.getPFireDelay()
         self.tFDelay = gSettings.getPFireDelay()
         self.enemies = enemies
+        self.explosions = explosions
+        self.ebullets = ebullets
         #Inicializa hitbox
-        self.hImage = pygame.image.load('images/hitbox.png').convert_alpha()
+        self.hImage = pygame.image.load('images/hitbox.png').convert_alpha(screen)
         self.hRect = self.hImage.get_rect()
         #Speed
         self.speed = self.gSettings.getPSpeed()
@@ -53,13 +55,14 @@ class Player(Sprite):
             self.hit = True
             self.soundController.playSound(4)
             if self.life <= 0:
+                self.explosions.add(Explosion(self.screen,self.rect.centerx,self.rect.centery,100,5,0))
                 self.dead = True
                 self.speed = 0
                 self.speed2 = 0
                 self.cf = False
+                gf.writeHighScore()
                 self.soundController.stopMusic()
                 self.soundController.playSound(2)
-                gf.writeHighScore()
 
     def getLife(self):
         return self.life
@@ -101,6 +104,7 @@ class Player(Sprite):
                     new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-5, self.rect.top,True)
                     bullets.add(new_bullet_right)
                     bullets.add(new_bullet_left)
+                    self.soundController.playSound(0)
                 self.fDelay = 0
         #Enquanto Fire estiver ativado, contador conta
         if self.fi:
@@ -125,11 +129,16 @@ class Player(Sprite):
 
     def bomb(self):
         if self.bombs > 0 and not self.dead:
+            self.explosions.add(Explosion(self.screen,self.trueScreen.centerx,self.trueScreen.centery,self.gSettings.getHight()+100,50,1))
+            for i in range(len(self.enemies)):
+                gf.addScore()
             self.enemies.empty()
+            self.ebullets.empty()
             self.bombs -= 1
             self.soundController.playSound(3)
 
     def blitme(self):
-        self.screen.blit(self.image, self.rect)
-        if self.sm:
-            self.screen.blit(self.hImage,self.hRect)
+        if not self.dead:
+            self.screen.blit(self.image, self.rect)
+            if self.sm:
+                self.screen.blit(self.hImage,self.hRect)

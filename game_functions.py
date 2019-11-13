@@ -1,20 +1,21 @@
 import sys
 import pygame
 from bullet import *
+from explosion import Explosion
 
 score = 0
 highScore = 0
-overlay = pygame.image.load('images/overlay.png')
-heart = pygame.image.load('images/vida.png')
-bomb = pygame.image.load('images/bomb.png')
-font = None
 
-def convertImages():
-    overlay = pygame.image.load('images/overlay.png').convert_alpha()
-    heart = pygame.image.load('images/vida.png').convert_alpha()
-    bomb = pygame.image.load('images/bomb.png').convert_alpha()
+def initGUI(gSettings,screen):
+    global overlay
+    overlay = pygame.image.load('images/overlay.png').convert_alpha(screen)
 
-def importFont(gSettings):
+    global heart
+    heart = pygame.image.load('images/vida.png').convert_alpha(screen)
+
+    global bomb
+    bomb = pygame.image.load('images/bomb.png').convert_alpha(screen)
+
     global font
     font = gSettings.getGUIFont()
     screen_width = gSettings.getWidth()
@@ -57,7 +58,7 @@ def checkEvents(p1, gSettings, screen, bullets):
                 elif event.key == pygame.K_z:
                     p1.fi = False
 
-def drawGUI(screen,gSettings,p1):
+def drawGUI(screen,gSettings,p1,enemies):
     screen.blit(overlay,(0,0))
 
     if p1.getLife()>0:
@@ -70,8 +71,17 @@ def drawGUI(screen,gSettings,p1):
 
     scoreText = ("%010d" % (score))
     highScoreText = ("%010d" % (highScore))
-    drawText(highScoreText,gSettings,screen,810,500)
-    drawText(scoreText,gSettings,screen,810,400)
+    inimigos = ("%d" % (len(enemies)))
+
+    drawText("Score:",gSettings,screen,810,370)
+    drawText(scoreText,gSettings,screen,810,410)
+
+    drawText("High Score:",gSettings,screen,810,490)
+    drawText(highScoreText,gSettings,screen,810,530)
+
+    drawText("Inimigos:",gSettings,screen,810,610)
+    drawText(inimigos,gSettings,screen,805,650)
+
     drawText("Vida:",gSettings,screen,810,70)
     drawText("Bombas:",gSettings,screen,810,240)
 
@@ -81,7 +91,7 @@ def drawText(texto,gSettings,screen,x,y):
     text_rect.center = (x,y)
     screen.blit(text_surface,text_rect)
 
-def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds):
+def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions):
     bg.blitme()
 
     for cloud in clouds:
@@ -94,7 +104,9 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds):
         enemy.blitme()
     for ebullet in ebullets.sprites():
         ebullet.drawEBullet()
-    drawGUI(screen,gSettings,p1)
+    for explosion in explosions.sprites():
+        explosion.blitme()
+    drawGUI(screen,gSettings,p1,enemies)
     # Apresenta a ultima tela
     pygame.display.flip()
 
@@ -102,7 +114,11 @@ def updateBg(bg,clouds):
     for cloud in clouds.sprites():
         cloud.update()
 
-def updateBullets(bullets, enemies,soundController):
+def updateExplosions(explosions):
+    for explosion in explosions:
+        explosion.update()
+
+def updateBullets(bullets, enemies,soundController,screen, explosions):
     bullets.update()
 
     for bullet in bullets.copy():
@@ -111,9 +127,15 @@ def updateBullets(bullets, enemies,soundController):
 
     collisions = pygame.sprite.groupcollide(bullets, enemies, True, True)
     if collisions:
-        global score
-        score+=100
+        for col in collisions:
+            new_explosion = Explosion(screen,col.rect.centerx,col.rect.centery,70,7,0)
+            explosions.add(new_explosion)
+            addScore()
         soundController.playSound(1)
+
+def addScore():
+    global score
+    score+=100
 
 def updateEBullets(ebullets, p1):
     ebullets.update()
