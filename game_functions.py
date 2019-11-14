@@ -91,7 +91,7 @@ def drawText(texto,gSettings,screen,x,y):
     text_rect.center = (x,y)
     screen.blit(text_surface,text_rect)
 
-def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions):
+def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,bossGroup):
     bg.blitme()
 
     for cloud in clouds:
@@ -106,6 +106,8 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,exp
         ebullet.drawEBullet()
     for explosion in explosions.sprites():
         explosion.blitme()
+    for boss in bossGroup.sprites():
+        boss.blitme()
     drawGUI(screen,gSettings,p1,enemies)
     # Apresenta a ultima tela
     pygame.display.flip()
@@ -185,6 +187,6 @@ def writeHighScore():
     f.write(str(highScore))
     f.close()
 
-def updateBoss(boss):
-    boss.update()
-    boss.blitme()
+def updateBoss(bossGroup):
+    for boss in bossGroup.sprites():
+        boss.update()

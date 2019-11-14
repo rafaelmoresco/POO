@@ -79,9 +79,9 @@ def telaInstruc():
     screen.fill(gSettings.getIntroBgColor())
 
     def drawText(texto,font,gSettings,screen,x,y,cor):
-        text_surface = font.render(texto,False,cor)
+        text_surface = font.render(texto,True,cor)
         text_rect = text_surface.get_rect()
-        text_rect.center = (x,y)
+        text_rect.center = (int(x),int(y))
         screen.blit(text_surface,text_rect)
 
     font1 = gSettings.getButtonFont()
@@ -115,6 +115,8 @@ def run_game():
 
     explosions = Group()
 
+    bossGroup = Group()
+
     bg = Background(gSettings,screen,trueScreen,0)
     clouds = Group()
     for i in range(3):
@@ -134,7 +136,7 @@ def run_game():
     soundController.playMusic(0)
 
     #Inicia o loop principal do jogo.
-    level.generateSpawn()
+    # level.generateSpawn()
 
     bossCount = 0
     bossSpawned = False
@@ -144,26 +146,27 @@ def run_game():
         clock.tick(fps)
 
         gf.checkEvents(p1, gSettings, screen, bullets)
-        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions)
+        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,bossGroup)
         gf.updateBg(bg,clouds)
         p1.update(bullets)
         gf.updateBullets(bullets,enemies,soundController,screen, explosions)
         gf.updateExplosions(explosions)
         gf.updateEBullets(ebullets, p1)
         gf.updateEnemies(enemies, p1, ebullets)
+        gf.updateBoss(bossGroup)
         gf.updateScore()
 
         if len(enemies) == 0:
             if bossCount >= 10:
                 boss = Boss(gSettings,screen,347,100,p1)
+                bossGroup.add(boss)
                 bossCount = 0
                 bossSpawned = True
-            elif bossSpawned:
-                gf.updateBoss(boss)
             else:
-                gSettings.difficultyIncrease()
-                level.generateSpawn()
-                bossCount += 1
+                if not bossSpawned:
+                    gSettings.difficultyIncrease()
+                    level.generateSpawn()
+                    bossCount += 1
 
         if p1.dead and not pygame.mixer.get_busy():
             telaBotoes("Game Over", "Novamente", "Sair")

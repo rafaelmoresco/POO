@@ -13,12 +13,10 @@ class Boss(Sprite):
         self.timer = 0
         self.image = pygame.image.load('images/Comet-1.png').convert_alpha(screen)
         self.rect = self.image.get_rect()
-        self.screen_rect = screen.get_rect()
+        self.screen_rect = self.screen.get_rect()
         self.gSettings = gSettings
         self.y = y
         self.x = x
-        self.rect.centerx = x
-        self.rect.centery = y
         self.speed = gSettings.getESpeed()/2
         self.direction = 0 #0Centro-Direita 1Direita-Centro 2Centro-Esquerda 3Esquerda-Centro
         self.counter = 0
@@ -28,11 +26,11 @@ class Boss(Sprite):
     def count(self):
         self.counter += 1
         return self.counter
-    
+
     def update(self):
         #Durante o counter, atira em circulo, fora atira 3 projeteis na direção do jogador
         if self.direction == 0:
-            if self.rect.centerx < 497:    
+            if self.rect.centerx < 497:
                 self.x += self.speed
             else:
                 if self.counter <= 120:
