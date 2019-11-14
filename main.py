@@ -112,7 +112,7 @@ def run_game():
     enemies = Group()
     #Cira enemy bullet group
     ebullets = Group()
-
+    bbullets = Group()
     explosions = Group()
 
     bossGroup = Group()
@@ -146,14 +146,15 @@ def run_game():
         clock.tick(fps)
 
         gf.checkEvents(p1, gSettings, screen, bullets)
-        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,bossGroup)
+        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,bossGroup,bbullets)
         gf.updateBg(bg,clouds)
         p1.update(bullets)
         gf.updateBullets(bullets,enemies,soundController,screen, explosions)
         gf.updateExplosions(explosions)
         gf.updateEBullets(ebullets, p1)
+        gf.updateBBullets(bbullets, p1)
         gf.updateEnemies(enemies, p1, ebullets)
-        gf.updateBoss(bossGroup)
+        gf.updateBoss(bossGroup, bbullets, p1)
         gf.updateScore()
 
         if len(enemies) == 0:
@@ -164,8 +165,8 @@ def run_game():
                 bossSpawned = True
             else:
                 if not bossSpawned:
-                    gSettings.difficultyIncrease()
-                    level.generateSpawn()
+                  #  gSettings.difficultyIncrease()
+                  #  level.generateSpawn()
                     bossCount += 1
 
         if p1.dead and not pygame.mixer.get_busy():

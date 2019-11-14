@@ -135,5 +135,5 @@ class BBulletT(Sprite):
         self.rect.y = self.y
         self.rect.x = self.x
 
-    def drawEBullet(self):
+    def drawBBullet(self):
         self.screen.blit(self.image, self.rect)

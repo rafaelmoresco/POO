@@ -91,7 +91,7 @@ def drawText(texto,gSettings,screen,x,y):
     text_rect.center = (x,y)
     screen.blit(text_surface,text_rect)
 
-def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,bossGroup):
+def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,bossGroup,bbullets):
     bg.blitme()
 
     for cloud in clouds:
@@ -108,6 +108,8 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,exp
         explosion.blitme()
     for boss in bossGroup.sprites():
         boss.blitme()
+    for bbullet in bbullets.sprites():
+        bbullet.drawBBullet()
     drawGUI(screen,gSettings,p1,enemies)
     # Apresenta a ultima tela
     pygame.display.flip()
@@ -124,7 +126,7 @@ def updateBullets(bullets, enemies,soundController,screen, explosions):
     bullets.update()
 
     for bullet in bullets.copy():
-        if bullet.rect.bottom <= 23 or bullet.rect.top >= 675 or bullet.rect.right <= 46 or bullet.rect.left >= 599:
+        if bullet.rect.bottom <= 23 or bullet.rect.top >= 675 or bullet.rect.right <= 46 or bullet.rect.left >= 646:
             bullets.remove(bullet)
 
     collisions = pygame.sprite.groupcollide(bullets, enemies, True, True)
@@ -143,7 +145,7 @@ def updateEBullets(ebullets, p1):
     ebullets.update()
 
     for ebullet in ebullets.copy():
-            if ebullet.rect.bottom <= 23 or ebullet.rect.top >= 675 or ebullet.rect.right <= 46 or ebullet.rect.left >= 599:
+            if ebullet.rect.bottom <= 23 or ebullet.rect.top >= 675 or ebullet.rect.right <= 46 or ebullet.rect.left >= 646:
                 ebullets.remove(ebullet)
 
     if pygame.sprite.spritecollideany(p1, ebullets) and (not p1.getHit()):
@@ -187,6 +189,18 @@ def writeHighScore():
     f.write(str(highScore))
     f.close()
 
-def updateBoss(bossGroup):
+def updateBBullets(bbullets, p1):
+    bbullets.update()
+
+    for bbullet in bbullets.copy():
+            if bbullet.rect.bottom <= 23 or bbullet.rect.top >= 675 or bbullet.rect.right <= 46 or bbullet.rect.left >= 646:
+                bbullets.remove(bbullet)
+
+    if pygame.sprite.spritecollideany(p1, bbullets) and (not p1.getHit()):
+        p1.gotHit()
+        bullet = pygame.sprite.spritecollideany(p1, bbullets)
+        bullet.kill()
+
+def updateBoss(bossGroup, bbullets, p1):
     for boss in bossGroup.sprites():
-        boss.update()
+        boss.update(bbullets,p1)
