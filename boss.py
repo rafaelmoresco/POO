@@ -17,20 +17,22 @@ class Boss(Sprite):
         self.gSettings = gSettings
         self.y = y
         self.x = x
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.centerx = x
+        self.rect.centery = y
         self.speed = gSettings.getESpeed()/2
         self.direction = 0 #0Centro-Direita 1Direita-Centro 2Centro-Esquerda 3Esquerda-Centro
         self.counter = 0
         self.alive = True
+        self.hp = 100
 
     def count(self):
         self.counter += 1
         return self.counter
     
     def update(self):
+        #Durante o counter, atira em circulo, fora atira 3 projeteis na direção do jogador
         if self.direction == 0:
-            if self.rect.x < 497:    
+            if self.rect.centerx < 497:    
                 self.x += self.speed
             else:
                 if self.counter <= 120:
@@ -39,7 +41,7 @@ class Boss(Sprite):
                     self.counter = 0
                     self.direction = 1
         elif self.direction == 1:
-            if self.rect.x > 347:
+            if self.rect.centerx > 347:
                 self.x -= self.speed
             else:
                 if self.counter <= 120:
@@ -48,7 +50,7 @@ class Boss(Sprite):
                     self.counter = 0
                     self.direction = 2
         elif self.direction == 2:
-            if self.rect.x > 197:
+            if self.rect.centerx > 197:
                 self.x -= self.speed
             else:
                 if self.counter <= 120:
@@ -57,7 +59,7 @@ class Boss(Sprite):
                     self.counter = 0
                     self.direction = 3
         else:
-            if self.rect.x < 347:
+            if self.rect.centerx < 347:
                 self.x += self.speed
             else:
                 if self.counter <= 120:
@@ -65,8 +67,8 @@ class Boss(Sprite):
                 else:
                     self.counter = 0
                     self.direction = 0
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.centerx = self.x
+        self.rect.centery = self.y
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)

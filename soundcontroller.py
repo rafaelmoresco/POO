@@ -14,7 +14,8 @@ class Sound:
             sound.set_volume(0.25)
 
         stage1 = 'music/stage1.ogg'
-        self.musics = [stage1]
+        boss = 'music/boss.ogg'
+        self.musics = [stage1,boss]
 
     def playSound(self,index):
         pygame.mixer.Sound.play(self.sounds[index])

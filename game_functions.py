@@ -170,10 +170,6 @@ def getHighScore():
     f = open("score.txt", "r")
     temp = f.read()
     f.close()
-    '''temp = list(temp)
-    temp.pop()
-    temp = "".join(temp)
-    '''
     global highScore
     highScore = int(temp)
 

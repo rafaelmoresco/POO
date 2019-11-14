@@ -106,9 +106,9 @@ class Enemy(Sprite):
                     self.goingDown = False
 
                 if self.px > -250:
-                    self.px += 2
+                    self.px += self.speed/1.4
                 else:
-                    self.px += 1
+                    self.px += self.speed/2.8
 
             else:
                 if not self.fired:
@@ -122,9 +122,9 @@ class Enemy(Sprite):
                     self.py = math.sqrt(90000 - (self.px**2))
                     self.y = self.py
                     if self.px < 250:
-                        self.px += 2
+                        self.px += self.speed
                     else:
-                        self.px += 1
+                        self.px += self.speed/2
                 else:
                     self.y -= self.speed
 
