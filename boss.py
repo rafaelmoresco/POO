@@ -31,86 +31,87 @@ class Boss(Sprite):
 
     def update(self, bbullets, p1):
         #Durante o counter, atira em circulo, fora atira 3 projeteis na direção do jogador
-        if self.direction == -1:
-            if self.counter <= 120:
-                    self.counter += 1
-                    self.timer += 1
-                    if self.timer >= self.timerM:
-                        self.fireC(bbullets,p1)
-                        self.timer = 0
-            else:
-                self.counter = 0
-                self.direction = 0
-        elif self.direction == 0:
-            if self.rect.centerx < 497:
-                self.x += self.speed
-                self.timer += 1
-                if self.timer >= self.timerM*2:
-                    self.fireL(bbullets,p1)
-                    self.timer = 0
-            else:
+        if self.alive:    
+            if self.direction == -1:
                 if self.counter <= 120:
-                    self.counter += 1
-                    self.timer += 1
-                    if self.timer >= self.timerM:
-                        self.fireC(bbullets,p1)
-                        self.timer = 0
-                else:
-                    self.counter = 0
-                    self.direction = 1
-        elif self.direction == 1:
-            if self.rect.centerx > 347:
-                self.x -= self.speed
-                self.timer += 1
-                if self.timer >= self.timerM*2:
-                    self.fireL(bbullets,p1)
-                    self.timer = 0
-            else:
-                if self.counter <= 120:
-                    self.counter += 1
-                    self.timer += 1
-                    if self.timer >= self.timerM:
-                        self.fireC(bbullets,p1)
-                        self.timer = 0
-                else:
-                    self.counter = 0
-                    self.direction = 2
-        elif self.direction == 2:
-            if self.rect.centerx > 197:
-                self.x -= self.speed
-                self.timer += 1
-                if self.timer >= self.timerM*2:
-                    self.fireL(bbullets,p1)
-                    self.timer = 0
-            else:
-                if self.counter <= 120:
-                    self.counter += 1
-                    self.timer += 1
-                    if self.timer >= self.timerM:
-                        self.fireC(bbullets,p1)
-                        self.timer = 0
-                else:
-                    self.counter = 0
-                    self.direction = 3
-        else:
-            if self.rect.centerx < 347:
-                self.x += self.speed
-                self.timer += 1
-                if self.timer >= self.timerM*2:
-                    self.fireL(bbullets,p1)
-                    self.timer = 0
-            else:
-                if self.counter <= 120:
-                    self.counter += 1
-                    self.timer += 1
-                    if self.timer >= self.timerM:
-                        self.fireC(bbullets,p1)
-                        self.timer = 0
+                        self.counter += 1
+                        self.timer += 1
+                        if self.timer >= self.timerM:
+                            self.fireC(bbullets,p1)
+                            self.timer = 0
                 else:
                     self.counter = 0
                     self.direction = 0
-        self.rect.centerx = self.x
-        self.rect.centery = self.y
+            elif self.direction == 0:
+                if self.rect.centerx < 497:
+                    self.x += self.speed
+                    self.timer += 1
+                    if self.timer >= self.timerM*2:
+                        self.fireL(bbullets,p1)
+                        self.timer = 0
+                else:
+                    if self.counter <= 120:
+                        self.counter += 1
+                        self.timer += 1
+                        if self.timer >= self.timerM:
+                            self.fireC(bbullets,p1)
+                            self.timer = 0
+                    else:
+                        self.counter = 0
+                        self.direction = 1
+            elif self.direction == 1:
+                if self.rect.centerx > 347:
+                    self.x -= self.speed
+                    self.timer += 1
+                    if self.timer >= self.timerM*2:
+                        self.fireL(bbullets,p1)
+                        self.timer = 0
+                else:
+                    if self.counter <= 120:
+                        self.counter += 1
+                        self.timer += 1
+                        if self.timer >= self.timerM:
+                            self.fireC(bbullets,p1)
+                            self.timer = 0
+                    else:
+                        self.counter = 0
+                        self.direction = 2
+            elif self.direction == 2:
+                if self.rect.centerx > 197:
+                    self.x -= self.speed
+                    self.timer += 1
+                    if self.timer >= self.timerM*2:
+                        self.fireL(bbullets,p1)
+                        self.timer = 0
+                else:
+                    if self.counter <= 120:
+                        self.counter += 1
+                        self.timer += 1
+                        if self.timer >= self.timerM:
+                            self.fireC(bbullets,p1)
+                            self.timer = 0
+                    else:
+                        self.counter = 0
+                        self.direction = 3
+            else:
+                if self.rect.centerx < 347:
+                    self.x += self.speed
+                    self.timer += 1
+                    if self.timer >= self.timerM*2:
+                        self.fireL(bbullets,p1)
+                        self.timer = 0
+                else:
+                    if self.counter <= 120:
+                        self.counter += 1
+                        self.timer += 1
+                        if self.timer >= self.timerM:
+                            self.fireC(bbullets,p1)
+                            self.timer = 0
+                    else:
+                        self.counter = 0
+                        self.direction = 0
+            self.rect.centerx = self.x
+            self.rect.centery = self.y
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)

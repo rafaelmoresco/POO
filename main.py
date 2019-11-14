@@ -115,7 +115,7 @@ def run_game():
     bbullets = Group()
     explosions = Group()
 
-    bossGroup = Group()
+    #bossGroup = Group()
 
     bg = Background(gSettings,screen,trueScreen,0)
     clouds = Group()
@@ -136,38 +136,45 @@ def run_game():
     soundController.playMusic(0)
 
     #Inicia o loop principal do jogo.
-    # level.generateSpawn()
-
+    #level.generateSpawn()
+    boss = Boss(gSettings,screen,347,100,p1)
     bossCount = 0
     bossSpawned = False
+    first = 0
 
     while True:
 
         clock.tick(fps)
 
         gf.checkEvents(p1, gSettings, screen, bullets)
-        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,bossGroup,bbullets)
+        gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,boss,bbullets, bossSpawned)
         gf.updateBg(bg,clouds)
         p1.update(bullets)
-        gf.updateBullets(bullets,enemies,soundController,screen, explosions)
+        gf.updateBullets(bullets,enemies,soundController,screen, explosions, boss)
         gf.updateExplosions(explosions)
         gf.updateEBullets(ebullets, p1)
         gf.updateBBullets(bbullets, p1)
         gf.updateEnemies(enemies, p1, ebullets)
-        gf.updateBoss(bossGroup, bbullets, p1)
+        gf.updateBoss(boss, bbullets, p1, bossSpawned)
         gf.updateScore()
 
         if len(enemies) == 0:
             if bossCount >= 10:
-                boss = Boss(gSettings,screen,347,100,p1)
-                bossGroup.add(boss)
+                #bossGroup.add(boss)
                 bossCount = 0
+                if first == 1:
+                    gSettings.bossIncrease()
+                    boss = Boss(gSettings,screen,347,100,p1)
                 bossSpawned = True
             else:
                 if not bossSpawned:
-                  #  gSettings.difficultyIncrease()
-                  #  level.generateSpawn()
+                    #gSettings.difficultyIncrease()
+                    #level.generateSpawn()
                     bossCount += 1
+                else:
+                    if boss.hp <= 0:
+                        bossSpawned = False
+                        first = 1
 
         if p1.dead and not pygame.mixer.get_busy():
             telaBotoes("Game Over", "Novamente", "Sair")

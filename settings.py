@@ -25,7 +25,7 @@ class Settings():
         self.__enemyBDelay = 250/self.__fpsFactor
         self.__enemyBSpeed = 0.65*self.__fpsFactor
         self.__tInv = 50/self.__fpsFactor
-        self.__bHP = 100
+        self.__bHP = 5
         self.__titleFont = pygame.font.Font('fonts/CENTAUR.ttf',150)
         self.__buttonFont = pygame.font.Font('fonts/FELIXTI.ttf',30)
         self.__GUIFont = pygame.font.Font('fonts/coders_crux.ttf',50)

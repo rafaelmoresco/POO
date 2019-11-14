@@ -91,7 +91,7 @@ def drawText(texto,gSettings,screen,x,y):
     text_rect.center = (x,y)
     screen.blit(text_surface,text_rect)
 
-def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,bossGroup,bbullets):
+def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,boss,bbullets,bossSpawned):
     bg.blitme()
 
     for cloud in clouds:
@@ -106,7 +106,8 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,exp
         ebullet.drawEBullet()
     for explosion in explosions.sprites():
         explosion.blitme()
-    for boss in bossGroup.sprites():
+    if bossSpawned:
+        #for boss in bossGroup.sprites():
         boss.blitme()
     for bbullet in bbullets.sprites():
         bbullet.drawBBullet()
@@ -122,7 +123,7 @@ def updateExplosions(explosions):
     for explosion in explosions:
         explosion.update()
 
-def updateBullets(bullets, enemies,soundController,screen, explosions):
+def updateBullets(bullets, enemies,soundController,screen, explosions, boss):
     bullets.update()
 
     for bullet in bullets.copy():
@@ -136,11 +137,10 @@ def updateBullets(bullets, enemies,soundController,screen, explosions):
             explosions.add(new_explosion)
             addScore()
         soundController.playSound(1)
-    '''if pygame.sprite.spritecollideany(bullets, bossGroup):
-        boss = pygame.sprite.spritecollideany(bullets, bossGroup)
+    if pygame.sprite.spritecollideany(boss, bullets):
         boss.hit()
-        bullet = pygame.sprite.spritecollideany(bossGroup, bullets)
-        bullet.kill()'''
+        bullet = pygame.sprite.spritecollideany(boss, bullets)
+        bullet.kill()
 
 def addScore():
     global score
@@ -206,6 +206,6 @@ def updateBBullets(bbullets, p1):
         bullet = pygame.sprite.spritecollideany(p1, bbullets)
         bullet.kill()
 
-def updateBoss(bossGroup, bbullets, p1):
-    for boss in bossGroup.sprites():
+def updateBoss(boss, bbullets, p1, bossSpawned):
+    if bossSpawned:
         boss.update(bbullets,p1)
