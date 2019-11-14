@@ -187,3 +187,8 @@ def writeHighScore():
 
     f = open("score.txt", "w")
     f.write(str(highScore))
+    f.close()
+
+def updateBoss(boss):
+    boss.update()
+    boss.blitme()

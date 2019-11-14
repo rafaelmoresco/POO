@@ -44,7 +44,7 @@ class Player(Sprite):
         self.centery = float(self.rect.centery)
         #Infos
         self.life = 3
-        self.bombs = 3
+        self.bombs = 10
         self.score = 0
         self.tInv = gSettings.getTInv()
         self.iTimer = 0

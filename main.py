@@ -7,6 +7,7 @@ from settings import Settings
 from player import Player
 from enemy import Enemy
 from level import Level
+from boss import Boss
 from soundcontroller import Sound
 from background import Background
 
@@ -133,7 +134,10 @@ def run_game():
     soundController.playMusic(0)
 
     #Inicia o loop principal do jogo.
-    level.generateSpawn()
+    #level.generateSpawn()
+
+    bossCount = 0
+    bossSpawned = False
 
     while True:
 
@@ -150,9 +154,16 @@ def run_game():
         gf.updateScore()
 
         if len(enemies) == 0:
-            gSettings.difficultyIncrease()
-            level.generateSpawn()
-
+            if bossCount >= 4:
+                boss = Boss(gSettings,screen,347,100,p1)
+                bossCount = 0
+                bossSpawned = True
+            elif bossSpawned:
+                gf.updateBoss(boss)
+            else:
+                #gSettings.difficultyIncrease()
+                #level.generateSpawn()
+                bossCount += 1
 
         if p1.dead and not pygame.mixer.get_busy():
             telaBotoes("Game Over", "Novamente", "Sair")

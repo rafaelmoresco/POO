@@ -7,7 +7,7 @@ class Sound:
         death_e = pygame.mixer.Sound('sounds/death_e.wav')
         death_p = pygame.mixer.Sound('sounds/death_p.wav')
         bomb = pygame.mixer.Sound('sounds/bomb.wav')
-        damage = pygame.mixer.Sound('sounds/damage.wav')
+        damage = pygame.mixer.Sound('sounds/Dor.wav')
 
         self.sounds = [shot,death_e,death_p,bomb,damage]
         for sound in self.sounds:
