@@ -43,6 +43,10 @@ class Boss(Sprite):
         elif self.direction == 0:
             if self.rect.centerx < 497:
                 self.x += self.speed
+                self.timer += 1
+                if self.timer >= 60:
+                    self.fireL(bbullets,p1)
+                    self.timer = 0
             else:
                 if self.counter <= 120:
                     self.counter += 1
@@ -56,6 +60,10 @@ class Boss(Sprite):
         elif self.direction == 1:
             if self.rect.centerx > 347:
                 self.x -= self.speed
+                self.timer += 1
+                if self.timer >= 60:
+                    self.fireL(bbullets,p1)
+                    self.timer = 0
             else:
                 if self.counter <= 120:
                     self.counter += 1
@@ -69,6 +77,10 @@ class Boss(Sprite):
         elif self.direction == 2:
             if self.rect.centerx > 197:
                 self.x -= self.speed
+                self.timer += 1
+                if self.timer >= 60:
+                    self.fireL(bbullets,p1)
+                    self.timer = 0
             else:
                 if self.counter <= 120:
                     self.counter += 1
@@ -82,6 +94,10 @@ class Boss(Sprite):
         else:
             if self.rect.centerx < 347:
                 self.x += self.speed
+                self.timer += 1
+                if self.timer >= 60:
+                    self.fireL(bbullets,p1)
+                    self.timer = 0
             else:
                 if self.counter <= 120:
                     self.counter += 1
@@ -179,4 +195,15 @@ class Boss(Sprite):
             new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, self.rect.centerx+300, 525)
             bbullets.add(new_bullet)
             new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, self.rect.centerx+300, 625)
+            bbullets.add(new_bullet)
             self.pattern = True
+
+    def fireL(self, bbullets, p1):
+        
+        new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, p1.rect.centerx-100, p1.rect.centery)
+        bbullets.add(new_bullet)
+        new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, p1.rect.centerx, p1.rect.centery)
+        bbullets.add(new_bullet)
+        new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, p1.rect.centerx+100, p1.rect.centery)
+        bbullets.add(new_bullet)
+            

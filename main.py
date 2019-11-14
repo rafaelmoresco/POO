@@ -127,7 +127,7 @@ def run_game():
 
 
     #Cria jogador
-    p1 = Player(gSettings, screen,enemies,soundController,trueScreen,explosions,ebullets)
+    p1 = Player(gSettings, screen,enemies,soundController,trueScreen,explosions,ebullets,bbullets)
 
     level = Level(screen,gSettings,enemies,p1,trueScreen)
 

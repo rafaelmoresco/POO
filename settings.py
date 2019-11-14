@@ -21,6 +21,8 @@ class Settings():
         self.__pFireDelay = 80/self.__fpsFactor
         self.__enemySpeed = 0.35*self.__fpsFactor
         self.__enemyFDelay = 1000/self.__fpsFactor
+        self.__enemyBSpeed = 0.35*self.__fpsFactor
+        self.__enemyBDelay = 1000/self.__fpsFactor
         self.__enemyBSpeed = 0.65*self.__fpsFactor
         self.__tInv = 30/self.__fpsFactor
 
@@ -92,3 +94,7 @@ class Settings():
     def difficultyIncrease(self):
         self.__enemySpeed += 0.05
         self.__enemyFDelay -= 0.05
+    
+    def bossIncrease(self):
+        self.__enemyBSpeed += 0.05
+        self.__enemyBDelay -= 0.05

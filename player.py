@@ -6,7 +6,7 @@ from explosion import Explosion
 from pygame.sprite import Sprite
 class Player(Sprite):
 
-    def __init__(self, gSettings, screen,enemies,soundController,trueScreen,explosions,ebullets):
+    def __init__(self, gSettings, screen,enemies,soundController,trueScreen,explosions,ebullets,bbullets):
         super().__init__()
         #Inicialização basica
         self.screen = screen
@@ -21,6 +21,7 @@ class Player(Sprite):
         self.enemies = enemies
         self.explosions = explosions
         self.ebullets = ebullets
+        self.bbullets = bbullets
         #Inicializa hitbox
         self.hImage = pygame.image.load('images/hitbox.png').convert_alpha(screen)
         self.hRect = self.hImage.get_rect()
@@ -134,6 +135,7 @@ class Player(Sprite):
                 gf.addScore()
             self.enemies.empty()
             self.ebullets.empty()
+            self.bbullets.empty()
             self.bombs -= 1
             self.soundController.playSound(3)
 
