@@ -115,7 +115,7 @@ def run_game():
     bbullets = Group()
     explosions = Group()
 
-    #bossGroup = Group()
+    gf.clearScore()
 
     bg = Background(gSettings,screen,trueScreen,0)
     clouds = Group()
@@ -136,7 +136,7 @@ def run_game():
     soundController.playMusic(0)
 
     #Inicia o loop principal do jogo.
-    #level.generateSpawn()
+    level.generateSpawn()
     boss = Boss(gSettings,screen,347,100,p1)
     bossCount = 0
     bossSpawned = False
@@ -160,20 +160,24 @@ def run_game():
 
         if len(enemies) == 0:
             if bossCount >= 10:
-                #bossGroup.add(boss)
                 bossCount = 0
                 if first == 1:
                     gSettings.bossIncrease()
                     boss = Boss(gSettings,screen,347,100,p1)
                 bossSpawned = True
+                soundController.stopMusic()
+                soundController.playMusic(1)
             else:
                 if not bossSpawned:
-                    #gSettings.difficultyIncrease()
-                    #level.generateSpawn()
+                    gSettings.difficultyIncrease()
+                    level.generateSpawn()
                     bossCount += 1
                 else:
                     if boss.hp <= 0:
                         bossSpawned = False
+                        soundController.stopMusic()
+                        soundController.playMusic(0)
+                        gf.addBScore()
                         first = 1
 
         if p1.dead and not pygame.mixer.get_busy():

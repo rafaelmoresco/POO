@@ -13,7 +13,8 @@ class Player(Sprite):
         self.trueScreen = trueScreen
         self.soundController = soundController
         self.image = pygame.image.load('images/Jogador.png').convert_alpha(screen)
-        self.rect = self.image.get_rect()
+        self.iRect = self.image.get_rect()
+        #self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.gSettings = gSettings
         self.fDelay = gSettings.getPFireDelay()
@@ -23,8 +24,8 @@ class Player(Sprite):
         self.ebullets = ebullets
         self.bbullets = bbullets
         #Inicializa hitbox
-        self.hImage = pygame.image.load('images/hitbox.png').convert_alpha(screen)
-        self.hRect = self.hImage.get_rect()
+        self.hImage = pygame.image.load('images/hitbox3.png').convert_alpha(screen)
+        self.rect = self.hImage.get_rect()
         #Speed
         self.speed = self.gSettings.getPSpeed()
         self.speed2 = self.gSettings.getPSpeed2()
@@ -95,14 +96,14 @@ class Player(Sprite):
         if self.fDelay >= self.tFDelay and self.fi:
             if self.cf:
                 if not self.sm:
-                    new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+20, self.rect.top+10,False)
-                    new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-20, self.rect.top+10,False)
+                    new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+20, self.iRect.top+10,False)
+                    new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-20, self.iRect.top+10,False)
                     bullets.add(new_bullet_right)
                     bullets.add(new_bullet_left)
                     self.soundController.playSound(0)
                 else:
-                    new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+5, self.rect.top,True)
-                    new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-5, self.rect.top,True)
+                    new_bullet_right = PBullet(self.gSettings, self.screen, self.centerx+5, self.iRect.top,True)
+                    new_bullet_left = PBullet(self.gSettings, self.screen, self.centerx-5, self.iRect.top,True)
                     bullets.add(new_bullet_right)
                     bullets.add(new_bullet_left)
                     self.soundController.playSound(0)
@@ -122,8 +123,8 @@ class Player(Sprite):
         #Update Movemento
         self.rect.centerx = self.centerx
         self.rect.centery = self.centery
-        self.hRect.centerx = self.centerx
-        self.hRect.centery = self.centery
+        self.iRect.centerx = self.centerx
+        self.iRect.centery = self.centery
 
     def getHit(self):
         return self.hit
@@ -141,6 +142,6 @@ class Player(Sprite):
 
     def blitme(self):
         if not self.dead:
-            self.screen.blit(self.image, self.rect)
+            self.screen.blit(self.image, self.iRect)
             if self.sm:
-                self.screen.blit(self.hImage,self.hRect)
+                self.screen.blit(self.hImage,self.rect)
