@@ -11,6 +11,7 @@ class Boss(Sprite):
         #Inicialização basica
         self.screen = screen
         self.timer = 0
+        self.timerM = gSettings.getBDelay()
         self.pattern = True
         self.image = pygame.image.load('images/Comet-1.png').convert_alpha(screen)
         self.rect = self.image.get_rect()
@@ -18,11 +19,11 @@ class Boss(Sprite):
         self.gSettings = gSettings
         self.y = y
         self.x = x
-        self.speed = gSettings.getESpeed()/2
+        self.speed = gSettings.getEBSpeed()/2
         self.direction = -1 #0Centro-Direita 1Direita-Centro 2Centro-Esquerda 3Esquerda-Centro
         self.counter = 0
         self.alive = True
-        self.hp = 100
+        self.hp = gSettings.getBHP()
 
     def count(self):
         self.counter += 1
@@ -34,7 +35,7 @@ class Boss(Sprite):
             if self.counter <= 120:
                     self.counter += 1
                     self.timer += 1
-                    if self.timer >= 30:
+                    if self.timer >= self.timerM:
                         self.fireC(bbullets,p1)
                         self.timer = 0
             else:
@@ -44,14 +45,14 @@ class Boss(Sprite):
             if self.rect.centerx < 497:
                 self.x += self.speed
                 self.timer += 1
-                if self.timer >= 60:
+                if self.timer >= self.timerM*2:
                     self.fireL(bbullets,p1)
                     self.timer = 0
             else:
                 if self.counter <= 120:
                     self.counter += 1
                     self.timer += 1
-                    if self.timer >= 30:
+                    if self.timer >= self.timerM:
                         self.fireC(bbullets,p1)
                         self.timer = 0
                 else:
@@ -61,14 +62,14 @@ class Boss(Sprite):
             if self.rect.centerx > 347:
                 self.x -= self.speed
                 self.timer += 1
-                if self.timer >= 60:
+                if self.timer >= self.timerM*2:
                     self.fireL(bbullets,p1)
                     self.timer = 0
             else:
                 if self.counter <= 120:
                     self.counter += 1
                     self.timer += 1
-                    if self.timer >= 30:
+                    if self.timer >= self.timerM:
                         self.fireC(bbullets,p1)
                         self.timer = 0
                 else:
@@ -78,14 +79,14 @@ class Boss(Sprite):
             if self.rect.centerx > 197:
                 self.x -= self.speed
                 self.timer += 1
-                if self.timer >= 60:
+                if self.timer >= self.timerM*2:
                     self.fireL(bbullets,p1)
                     self.timer = 0
             else:
                 if self.counter <= 120:
                     self.counter += 1
                     self.timer += 1
-                    if self.timer >= 30:
+                    if self.timer >= self.timerM:
                         self.fireC(bbullets,p1)
                         self.timer = 0
                 else:
@@ -95,14 +96,14 @@ class Boss(Sprite):
             if self.rect.centerx < 347:
                 self.x += self.speed
                 self.timer += 1
-                if self.timer >= 60:
+                if self.timer >= self.timerM*2:
                     self.fireL(bbullets,p1)
                     self.timer = 0
             else:
                 if self.counter <= 120:
                     self.counter += 1
                     self.timer += 1
-                    if self.timer >= 30:
+                    if self.timer >= self.timerM:
                         self.fireC(bbullets,p1)
                         self.timer = 0
                 else:
@@ -206,4 +207,9 @@ class Boss(Sprite):
         bbullets.add(new_bullet)
         new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, p1.rect.centerx+100, p1.rect.centery)
         bbullets.add(new_bullet)
+
+    def hit(self):
+        self.hp -= 1
+        if self.hp <= 0:
+            self.alive = False
             

@@ -22,10 +22,10 @@ class Settings():
         self.__enemySpeed = 0.35*self.__fpsFactor
         self.__enemyFDelay = 1000/self.__fpsFactor
         self.__enemyBSpeed = 0.35*self.__fpsFactor
-        self.__enemyBDelay = 1000/self.__fpsFactor
+        self.__enemyBDelay = 250/self.__fpsFactor
         self.__enemyBSpeed = 0.65*self.__fpsFactor
-        self.__tInv = 30/self.__fpsFactor
-
+        self.__tInv = 50/self.__fpsFactor
+        self.__bHP = 100
         self.__titleFont = pygame.font.Font('fonts/CENTAUR.ttf',150)
         self.__buttonFont = pygame.font.Font('fonts/FELIXTI.ttf',30)
         self.__GUIFont = pygame.font.Font('fonts/coders_crux.ttf',50)
@@ -90,11 +90,18 @@ class Settings():
         return self.__buttonHoverColor
     def getButtonTextColor(self):
         return self.__buttonTextColor
+    def getEBSpeed(self):
+        return self.__enemyBSpeed
+    def getBDelay(self):
+        return self.__enemyBDelay
+    def getBHP(self):
+        return self.__bHP
 
     def difficultyIncrease(self):
         self.__enemySpeed += 0.05
         self.__enemyFDelay -= 0.05
     
     def bossIncrease(self):
-        self.__enemyBSpeed += 0.05
-        self.__enemyBDelay -= 0.05
+        self.__enemyBSpeed += 0.5
+        self.__enemyBDelay -= 0.5
+        self.__bHP += 10

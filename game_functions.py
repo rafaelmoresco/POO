@@ -136,6 +136,11 @@ def updateBullets(bullets, enemies,soundController,screen, explosions):
             explosions.add(new_explosion)
             addScore()
         soundController.playSound(1)
+    '''if pygame.sprite.spritecollideany(bullets, bossGroup):
+        boss = pygame.sprite.spritecollideany(bullets, bossGroup)
+        boss.hit()
+        bullet = pygame.sprite.spritecollideany(bossGroup, bullets)
+        bullet.kill()'''
 
 def addScore():
     global score
