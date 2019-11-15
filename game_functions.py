@@ -21,7 +21,7 @@ def initGUI(gSettings,screen):
     screen_width = gSettings.getWidth()
     screen_Height = gSettings.getHight()
 
-def checkEvents(p1, gSettings, screen, bullets):
+def checkEvents(p1, gSettings, screen, bullets, boss):
     # Observa o teclado e mouse por eventos
     for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -41,7 +41,7 @@ def checkEvents(p1, gSettings, screen, bullets):
                 elif event.key == pygame.K_z:
                     p1.fi = True
                 elif event.key == pygame.K_x:
-                    p1.bomb()
+                    p1.bomb(boss)
 
             #Key Up events
             elif event.type == pygame.KEYUP:
@@ -155,7 +155,7 @@ def addScore():
     score+=100
 def addBScore():
     global score
-    score+=2000
+    score+=15000
 
 def updateEBullets(ebullets, p1):
     ebullets.update()

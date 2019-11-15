@@ -129,7 +129,7 @@ class Player(Sprite):
     def getHit(self):
         return self.hit
 
-    def bomb(self):
+    def bomb(self,boss):
         if self.bombs > 0 and not self.dead:
             self.explosions.add(Explosion(self.screen,self.trueScreen.centerx,self.trueScreen.centery,self.gSettings.getHight()+100,50,1))
             for i in range(len(self.enemies)):
@@ -137,6 +137,7 @@ class Player(Sprite):
             self.enemies.empty()
             self.ebullets.empty()
             self.bbullets.empty()
+            boss.hitBomb()
             self.bombs -= 1
             self.soundController.playSound(3)
 

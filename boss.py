@@ -43,11 +43,12 @@ class Boss(Sprite):
                 else:
                     self.counter = 0
                     self.direction = 0
+                    self.fireL(bbullets,p1)
             elif self.direction == 0:
                 if self.rect.centerx < 497:
                     self.x += self.speed
                     self.timer += 1
-                    if self.timer >= self.timerM*2:
+                    if self.timer >= self.timerM*1.5:
                         self.fireL(bbullets,p1)
                         self.timer = 0
                 else:
@@ -60,11 +61,12 @@ class Boss(Sprite):
                     else:
                         self.counter = 0
                         self.direction = 1
+                        self.fireL(bbullets,p1)
             elif self.direction == 1:
                 if self.rect.centerx > 347:
                     self.x -= self.speed
                     self.timer += 1
-                    if self.timer >= self.timerM*2:
+                    if self.timer >= self.timerM*1.5:
                         self.fireL(bbullets,p1)
                         self.timer = 0
                 else:
@@ -77,11 +79,12 @@ class Boss(Sprite):
                     else:
                         self.counter = 0
                         self.direction = 2
+                        self.fireL(bbullets,p1)
             elif self.direction == 2:
                 if self.rect.centerx > 197:
                     self.x -= self.speed
                     self.timer += 1
-                    if self.timer >= self.timerM*2:
+                    if self.timer >= self.timerM*1.5:
                         self.fireL(bbullets,p1)
                         self.timer = 0
                 else:
@@ -94,11 +97,12 @@ class Boss(Sprite):
                     else:
                         self.counter = 0
                         self.direction = 3
+                        self.fireL(bbullets,p1)
             else:
                 if self.rect.centerx < 347:
                     self.x += self.speed
                     self.timer += 1
-                    if self.timer >= self.timerM*2:
+                    if self.timer >= self.timerM*1.5:
                         self.fireL(bbullets,p1)
                         self.timer = 0
                 else:
@@ -111,6 +115,7 @@ class Boss(Sprite):
                     else:
                         self.counter = 0
                         self.direction = 0
+                        self.fireL(bbullets,p1)
             self.rect.centerx = self.x
             self.rect.centery = self.y
 
@@ -213,5 +218,10 @@ class Boss(Sprite):
     def hit(self):
         self.hp -= 1
         self.soundController.playSound(5)
+        if self.hp <= 0:
+            self.alive = False
+
+    def hitBomb(self):
+        self.hp -= 20
         if self.hp <= 0:
             self.alive = False

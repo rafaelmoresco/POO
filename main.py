@@ -146,7 +146,7 @@ def run_game():
 
         clock.tick(fps)
 
-        gf.checkEvents(p1, gSettings, screen, bullets)
+        gf.checkEvents(p1, gSettings, screen, bullets, boss)
         gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,boss,bbullets, bossSpawned)
         gf.updateBg(bg,clouds)
         p1.update(bullets)
@@ -159,7 +159,7 @@ def run_game():
         gf.updateScore()
 
         if len(enemies) == 0:
-            if bossCount >= 10:
+            if bossCount >= 20:
                 bossCount = 0
                 if first == 1:
                     gSettings.bossIncrease()
