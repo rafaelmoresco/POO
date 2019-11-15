@@ -153,10 +153,13 @@ def updateBullets(bullets, enemies,soundController,screen, explosions, boss):
 def addScore():
     global score
     score+=100
-def addBScore():
+def addBScore(p1):
     global score
     score+=15000
-
+    if p1.getBombs() == 3:
+        score+=5000
+    else:
+        p1.addBombs()
 def updateEBullets(ebullets, p1):
     ebullets.update()
 

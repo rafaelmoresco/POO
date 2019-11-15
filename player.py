@@ -68,10 +68,15 @@ class Player(Sprite):
 
     def getLife(self):
         return self.life
+    
+    def addLife(self):
+        self.life +=1
 
     def getBombs(self):
         return self.bombs
-
+    
+    def addBombs(self):
+        self.bombs +=1
 
     def update(self, bullets):
         #Normal Speed

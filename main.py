@@ -177,7 +177,7 @@ def run_game():
                         bossSpawned = False
                         soundController.stopMusic()
                         soundController.playMusic(0)
-                        gf.addBScore()
+                        gf.addBScore(p1)
                         first = 1
                         soundController.playSound(6)
 
