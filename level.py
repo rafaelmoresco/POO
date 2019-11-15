@@ -18,7 +18,7 @@ class Level:
 
     def generateSpawn(self):
         num1 = random.randrange(1,5)
-        num2 = random.randrange(2,10)
+        num2 = random.randrange(2,8)
         qual = random.randrange(1,6)
 
         if qual == 1:

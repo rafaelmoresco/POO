@@ -91,6 +91,13 @@ def drawText(texto,gSettings,screen,x,y):
     text_rect.center = (x,y)
     screen.blit(text_surface,text_rect)
 
+def healthBar(boss,screen,gSettings):
+    progress = 3*(gSettings.getBHP() - (gSettings.getBHP()-boss.hp))
+    barRect = pygame.Rect(0,0,progress,20)
+    barRect.bottom = boss.rect.top-10
+    barRect.centerx = boss.rect.centerx
+    pygame.draw.rect(screen,(10,200,10),barRect)
+
 def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,boss,bbullets,bossSpawned):
     bg.blitme()
 
@@ -109,6 +116,7 @@ def updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,exp
     if bossSpawned:
         #for boss in bossGroup.sprites():
         boss.blitme()
+        healthBar(boss,screen,gSettings)
     for bbullet in bbullets.sprites():
         bbullet.drawBBullet()
     drawGUI(screen,gSettings,p1,enemies)

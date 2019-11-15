@@ -8,8 +8,10 @@ class Sound:
         death_p = pygame.mixer.Sound('sounds/death_p.wav')
         bomb = pygame.mixer.Sound('sounds/bomb.wav')
         damage = pygame.mixer.Sound('sounds/Dor.wav')
+        boss_damage = pygame.mixer.Sound('sounds/damage.wav')
+        boss_kill = pygame.mixer.Sound('sounds/boss_kill.wav')
 
-        self.sounds = [shot,death_e,death_p,bomb,damage]
+        self.sounds = [shot,death_e,death_p,bomb,damage,boss_damage,boss_kill]
         for sound in self.sounds:
             sound.set_volume(0.25)
 

@@ -137,7 +137,7 @@ def run_game():
 
     #Inicia o loop principal do jogo.
     level.generateSpawn()
-    boss = Boss(gSettings,screen,347,100,p1)
+    boss = Boss(gSettings,screen,347,100,p1,soundController)
     bossCount = 0
     bossSpawned = False
     first = 0
@@ -163,7 +163,7 @@ def run_game():
                 bossCount = 0
                 if first == 1:
                     gSettings.bossIncrease()
-                    boss = Boss(gSettings,screen,347,100,p1)
+                    boss = Boss(gSettings,screen,347,100,p1,soundController)
                 bossSpawned = True
                 soundController.stopMusic()
                 soundController.playMusic(1)
@@ -179,6 +179,7 @@ def run_game():
                         soundController.playMusic(0)
                         gf.addBScore()
                         first = 1
+                        soundController.playSound(6)
 
         if p1.dead and not pygame.mixer.get_busy():
             telaBotoes("Game Over", "Novamente", "Sair")

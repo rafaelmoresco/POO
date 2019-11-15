@@ -6,7 +6,7 @@ from pygame.sprite import Sprite
 
 class Boss(Sprite):
 
-    def __init__(self,  gSettings, screen, x, y, p1):
+    def __init__(self,  gSettings, screen, x, y, p1,soundController):
         super().__init__()
         #Inicialização basica
         self.screen = screen
@@ -24,6 +24,7 @@ class Boss(Sprite):
         self.counter = 0
         self.alive = True
         self.hp = gSettings.getBHP()
+        self.soundController = soundController
 
     def count(self):
         self.counter += 1
@@ -31,7 +32,7 @@ class Boss(Sprite):
 
     def update(self, bbullets, p1):
         #Durante o counter, atira em circulo, fora atira 3 projeteis na direção do jogador
-        if self.alive:    
+        if self.alive:
             if self.direction == -1:
                 if self.counter <= 120:
                         self.counter += 1
@@ -115,7 +116,7 @@ class Boss(Sprite):
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
-    
+
     def fireC(self, bbullets, p1):
         if self.pattern:
             new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, self.rect.centerx-300, 75)
@@ -201,7 +202,7 @@ class Boss(Sprite):
             self.pattern = True
 
     def fireL(self, bbullets, p1):
-        
+
         new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, p1.rect.centerx-100, p1.rect.centery)
         bbullets.add(new_bullet)
         new_bullet = BBulletT(self.gSettings, self.screen, self.rect.centerx, self.rect.centery, p1.rect.centerx, p1.rect.centery)
@@ -211,6 +212,6 @@ class Boss(Sprite):
 
     def hit(self):
         self.hp -= 1
+        self.soundController.playSound(5)
         if self.hp <= 0:
             self.alive = False
-            
