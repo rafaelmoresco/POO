@@ -13,7 +13,7 @@ class PBullet(Sprite):
         self.screen = screen
         self.gSettings = gSettings
         self.rect = pygame.Rect(0,0, self.bulletWidth, self.bulletHeight)
-        self.colour = 60,60,60
+        self.colour = 139,9,172
 
         if not isSlow:
             self.speed = self.gSettings.getPBulletS()

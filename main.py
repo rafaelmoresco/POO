@@ -176,6 +176,7 @@ def run_game():
                 else:
                     if boss.hp <= 0:
                         bossSpawned = False
+                        boss.alive = False
                         soundController.stopMusic()
                         soundController.playMusic(0)
                         gf.addBScore(p1)

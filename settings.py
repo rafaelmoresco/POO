@@ -99,9 +99,11 @@ class Settings():
 
     def difficultyIncrease(self):
         self.__enemySpeed += 0.025
-        self.__enemyFDelay -= 0.025
+        if self.__enemyFDelay > 2:
+            self.__enemyFDelay -= 0.05
     
     def bossIncrease(self):
         self.__enemyBSpeed += 0.25
-        self.__enemyBDelay -= 0.5
+        if self.__enemyBDelay > 2:
+            self.__enemyBDelay -= 1
         self.__bHP += 10

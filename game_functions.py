@@ -145,7 +145,7 @@ def updateBullets(bullets, enemies,soundController,screen, explosions, boss):
             explosions.add(new_explosion)
             addScore()
         soundController.playSound(1)
-    if pygame.sprite.spritecollideany(boss, bullets):
+    if pygame.sprite.spritecollideany(boss, bullets) and boss.alive:
         boss.hit()
         bullet = pygame.sprite.spritecollideany(boss, bullets)
         bullet.kill()
@@ -164,7 +164,7 @@ def updateEBullets(ebullets, p1):
     ebullets.update()
 
     for ebullet in ebullets.copy():
-            if ebullet.rect.bottom <= 23 or ebullet.rect.top >= 675 or ebullet.rect.right <= 46 or ebullet.rect.left >= 646:
+            if ebullet.rect.bottom <= 23 or ebullet.rect.top >= 700 or ebullet.rect.right <= 46 or ebullet.rect.left >= 646:
                 ebullets.remove(ebullet)
 
     if pygame.sprite.spritecollideany(p1, ebullets) and (not p1.getHit()):
@@ -216,7 +216,7 @@ def updateBBullets(bbullets, p1):
     bbullets.update()
 
     for bbullet in bbullets.copy():
-            if bbullet.rect.bottom <= 23 or bbullet.rect.top >= 675 or bbullet.rect.right <= 46 or bbullet.rect.left >= 646:
+            if bbullet.rect.bottom <= 23 or bbullet.rect.top >= 700 or bbullet.rect.right <= 46 or bbullet.rect.left >= 646:
                 bbullets.remove(bbullet)
 
     if pygame.sprite.spritecollideany(p1, bbullets) and (not p1.getHit()):
