@@ -10,6 +10,7 @@ from level import Level
 from boss import Boss
 from soundcontroller import Sound
 from background import Background
+from explosion import Explosion
 
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
@@ -180,6 +181,8 @@ def run_game():
                         gf.addBScore(p1)
                         first = 1
                         soundController.playSound(6)
+                        new_explosion = new_explosion = Explosion(screen,boss.rect.centerx,boss.rect.centery,200,10,0)
+                        explosions.add(new_explosion)
 
         if p1.dead and not pygame.mixer.get_busy():
             telaBotoes("Game Over", "Novamente", "Sair")
