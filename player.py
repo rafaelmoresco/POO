@@ -12,7 +12,8 @@ class Player(Sprite):
         self.screen = screen
         self.trueScreen = trueScreen
         self.soundController = soundController
-        self.image = pygame.image.load('images/Jogador.png').convert_alpha(screen)
+        self.anim = [pygame.image.load('images/reimu-1.png').convert_alpha(screen), pygame.image.load('images/reimu-2.png').convert_alpha(screen),pygame.image.load('images/reimu-3.png').convert_alpha(screen),pygame.image.load('images/reimu-4.png').convert_alpha(screen),pygame.image.load('images/reimu-5.png').convert_alpha(screen),pygame.image.load('images/reimu-6.png').convert_alpha(screen),pygame.image.load('images/reimu-7.png').convert_alpha(screen),pygame.image.load('images/reimu-8.png').convert_alpha(screen)]
+        self.image = self.anim[0]
         self.iRect = self.image.get_rect()
         #self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
@@ -23,6 +24,11 @@ class Player(Sprite):
         self.explosions = explosions
         self.ebullets = ebullets
         self.bbullets = bbullets
+        #Controle das animações
+        self.spriteNum = 0
+        self.spriteNumMax = 8
+        self.spriteTimer = 0
+        self.spriteTimermMax = 7
         #Inicializa hitbox
         self.hImage = pygame.image.load('images/hitbox3.png').convert_alpha(screen)
         self.rect = self.hImage.get_rect()
@@ -130,6 +136,17 @@ class Player(Sprite):
         self.rect.centery = self.centery
         self.iRect.centerx = self.centerx
         self.iRect.centery = self.centery
+        #Update Animação
+        self.spriteTimer+=1
+
+        if self.spriteTimer>=self.spriteTimermMax:
+            self.spriteNum+=1
+            self.spriteTimer = 0
+
+        if self.spriteNum >= self.spriteNumMax:
+            self.spriteNum = 0
+
+        self.image = self.anim[self.spriteNum]
 
     def getHit(self):
         return self.hit
