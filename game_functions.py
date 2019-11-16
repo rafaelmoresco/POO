@@ -135,7 +135,7 @@ def updateBullets(bullets, enemies,soundController,screen, explosions, boss):
     bullets.update()
 
     for bullet in bullets.copy():
-        if bullet.rect.bottom <= 23 or bullet.rect.top >= 675 or bullet.rect.right <= 46 or bullet.rect.left >= 646:
+        if bullet.rect.bottom <= 23 or bullet.rect.top >= 700 or bullet.rect.right <= 46 or bullet.rect.left >= 646:
             bullets.remove(bullet)
 
     collisions = pygame.sprite.groupcollide(bullets, enemies, True, True)
