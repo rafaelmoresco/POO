@@ -147,7 +147,7 @@ def run_game():
 
         clock.tick(fps)
 
-        gf.checkEvents(p1, gSettings, screen, bullets, boss)
+        gf.checkEvents(p1, gSettings, screen, bullets, boss, bossSpawned)
         gf.updateScreen(gSettings, screen, p1, bullets, enemies, ebullets,bg,clouds,explosions,boss,bbullets, bossSpawned)
         gf.updateBg(bg,clouds)
         p1.update(bullets)
