@@ -21,7 +21,7 @@ class Settings():
         self.__pFireDelay = 80/self.__fpsFactor
         self.__enemySpeed = 0.35*self.__fpsFactor
         self.__enemyFDelay = 1000/self.__fpsFactor
-        self.__enemyBSpeed = 0.35*self.__fpsFactor
+        self.__enemyBlSpeed = 0.35*self.__fpsFactor
         self.__enemyBDelay = 250/self.__fpsFactor
         self.__enemyBSpeed = 0.65*self.__fpsFactor
         self.__tInv = 50/self.__fpsFactor
@@ -66,7 +66,7 @@ class Settings():
     def getEFDelay(self):
         return self.__enemyFDelay
     def getEBSpeed(self):
-        return self.__enemyBSpeed
+        return self.__enemyBlSpeed
     def getFPS(self):
         return self.__fps
     def getTInv(self):
@@ -107,3 +107,10 @@ class Settings():
         if self.__enemyBDelay > 2:
             self.__enemyBDelay -= 1
         self.__bHP += 10
+
+    def resetDificulty(self):
+        self.__enemySpeed = 0.35*self.__fpsFactor
+        self.__enemyFDelay = 1000/self.__fpsFactor
+        self.__enemyBlSpeed = 0.65*self.__fpsFactor
+        self.__enemyBDelay = 250/self.__fpsFactor
+        self.__enemyBSpeed = 0.65*self.__fpsFactor

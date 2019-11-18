@@ -115,6 +115,7 @@ def run_game():
     ebullets = Group()
     bbullets = Group()
     explosions = Group()
+    gSettings.resetDificulty()
 
     gf.clearScore()
 
