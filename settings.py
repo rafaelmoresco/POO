@@ -114,3 +114,4 @@ class Settings():
         self.__enemyBlSpeed = 0.65*self.__fpsFactor
         self.__enemyBDelay = 250/self.__fpsFactor
         self.__enemyBSpeed = 0.65*self.__fpsFactor
+        self.__bHP = 50
